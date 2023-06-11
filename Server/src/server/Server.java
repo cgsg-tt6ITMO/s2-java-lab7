@@ -7,6 +7,7 @@ import resources.utility.Deserializer;
 import resources.utility.Request;
 import resources.utility.Response;
 import resources.utility.Serializer;
+import server.databases.DBInit;
 import server.managers.CommandManager;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.rmi.ConnectIOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -30,12 +32,17 @@ public class Server {
      */
     public Server() {}
 
+    public static void main(String[] args) throws SQLException {
+        DBInit dbInit = new DBInit();
+        dbInit.initialize();
+    }
+
     /**
      * Gets requests, handles them and sends responses.
      * Does all the manipulation with the collection.
      * @param args cmd arguments.
      */
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         int q = MAX_NUM_COMMANDS;
         InetAddress host;
         int port = 6000;
@@ -59,8 +66,6 @@ public class Server {
                     buf = ByteBuffer.wrap(arr);
                     sock.read(buf);
                     // data deserialization & command execution
-
-                    // TODO: сделать так, чтоб без start не начинали
                     if (arr[0] == '[') {
                         Request[] reqs = Deserializer.readArr(new String(arr));
                         ArrayList<Response> response = new ArrayList<>();

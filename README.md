@@ -1,4 +1,4 @@
-# s2-java-lab7
+# JAVA, 2nd semester, Laba № 7
 Started 14.05.2023
 
 ## THE TASK, variant № 9844

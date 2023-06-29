@@ -10,13 +10,11 @@ import resources.utility.Serializer;
 import server.databases.DBInit;
 import server.managers.CommandManager;
 
-import java.io.IOException;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
-import java.rmi.ConnectIOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -32,7 +30,7 @@ public class Server {
      */
     public Server() {}
 
-    public static void main(String[] args) throws SQLException {
+    public static void main2(String[] args) throws SQLException {
         DBInit dbInit = new DBInit();
         dbInit.initialize();
     }
@@ -42,67 +40,67 @@ public class Server {
      * Does all the manipulation with the collection.
      * @param args cmd arguments.
      */
-    public static void main1(String[] args) {
+    public static void main(String[] args) {
         int q = MAX_NUM_COMMANDS;
         InetAddress host;
-        int port = 6000;
+        int port = 8080;
         SocketAddress addr;
-        SocketChannel sock;
         ServerSocketChannel serv;
         ByteBuffer buf;
         CommandManager commandManager = new CommandManager();
 
-        boolean loop = true;
-        do {
-            try {
-                host = InetAddress.getLocalHost();
-                addr = new InetSocketAddress(host, port);
-                serv = ServerSocketChannel.open();
-                serv.bind(addr);
-                sock = serv.accept();
+        try {
+            host = InetAddress.getLocalHost();
+            addr = new InetSocketAddress(host, port);
+            serv = ServerSocketChannel.open();
+            serv.bind(addr);
 
-                while (q > 0) {
-                    // get data from client
+            boolean loop = true, nonExit;
+
+            // while количество клиентов по идее меньше какого-то фикс. числа
+            do {
+                // новый сокет под нового клиента
+                SocketChannel sock = serv.accept();
+                nonExit = true;
+                // while количество команд меньше какого-то числа и не было exit
+                while (q > 0 && nonExit) {
                     buf = ByteBuffer.wrap(arr);
                     sock.read(buf);
-                    // data deserialization & command execution
                     if (arr[0] == '[') {
                         Request[] reqs = Deserializer.readArr(new String(arr));
                         ArrayList<Response> response = new ArrayList<>();
                         for (Request r : reqs) {
-                            if (r != null) {
-                                Response res = commandManager.runCommand(r);
-                                response.add(res);
+                            if (r.name().equals("exit")) {
+                                nonExit = false;
                             }
+                            Response res = commandManager.runCommand(r);
+                            response.add(res);
                         }
                         arr = Serializer.objSer(response).getBytes(StandardCharsets.UTF_8);
                     } else {
                         Request r = Deserializer.readReq(new String(arr));
+                        if (r.name().equals("exit")) {
+                            nonExit = false;
+                        }
                         Response response = commandManager.runCommand(r.name(), r.args());
                         arr = Serializer.objSer(response).getBytes(StandardCharsets.UTF_8);
                     }
 
-                    // send response to the client
                     buf = ByteBuffer.wrap(arr);
                     sock.write(buf);
                     arr = new byte[8192];
                     q--;
                 }
                 sock.close();
-            } catch (UnknownHostException e) {
-                System.err.println(e.getMessage());
-            } catch (ConnectIOException e) {
-                System.err.println("ConnectIOException");
-            } catch (BindException e) {
-                port += 1;
-            } catch (IOException e) {
-                System.out.println("Probably, one client was disconnected...");
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                System.err.println("ERROR...");
-                e.printStackTrace();
-            }
-        } while (loop);
+            } while (loop);
+
+        } catch (UnknownHostException e) {
+            System.err.println(e.getMessage());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("ERROR...");
+            e.printStackTrace();
+        }
     }
 }

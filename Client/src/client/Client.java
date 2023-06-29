@@ -32,7 +32,7 @@ public class Client {
     public static void main(String[] args) {
         InetAddress host;
         // need to change the number after client disconnection
-        int port = 6000;
+        int port = 8080;
         SocketAddress addr;
         byte[] arr;
         ByteBuffer buf;

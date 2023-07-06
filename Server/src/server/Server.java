@@ -7,7 +7,8 @@ import resources.utility.Deserializer;
 import resources.utility.Request;
 import resources.utility.Response;
 import resources.utility.Serializer;
-import server.databases.DBInit;
+import server.databases.DBConnection;
+//import server.databases.DBInitialization;
 import server.managers.CommandManager;
 
 import java.net.*;
@@ -17,10 +18,10 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
 
 import static java.nio.channels.SelectionKey.OP_ACCEPT;
 
@@ -36,9 +37,11 @@ public class Server {
      */
     public Server() {}
 
-    public static void main2(String[] args) throws SQLException {
-        DBInit dbInit = new DBInit();
-        dbInit.initialize();
+    public static void main(String[] args) throws SQLException {
+        DBConnection dbConnection = new DBConnection();
+        Connection dbConn = dbConnection.connect();
+        //DBInitialization dbInit = new DBInitialization(dbConn);
+        //dbInit.initialize();
     }
 
     /**
@@ -46,7 +49,7 @@ public class Server {
      * Does all the manipulation with the collection.
      * @param args cmd arguments.
      */
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         int q = MAX_NUM_COMMANDS;
         InetAddress host;
         int port = 8080;

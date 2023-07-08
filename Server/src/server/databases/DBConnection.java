@@ -9,25 +9,26 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class DBConnection {
     public Connection connect() {
+        Logger log = Logger.getLogger(DBConnection.class.getName());
         Properties info = new Properties();
         Connection conn = null;
         try (FileInputStream config = new FileInputStream("src/files/db.cfg")) {
             Class.forName("org.postgresql.Driver");
             info.load(config);
             conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/studs", info);
-            System.out.println("Connected to the PostgreSQL server successfully.");
+            log.info("Connection to SQL server is successful.");
         } catch (SQLException e) {
-            System.err.println("DBConnection1: " + e.getMessage());
-            e.printStackTrace();
+            log.warning("DBConnection1: Connect to helios and try again");
         } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("DBConnection2: Configuration file not found or something");
+            log.warning("DBConnection2: Configuration file not found or something");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("DBConnection3: Probably, problems with driver");
+            log.warning("DBConnection3: Probably, problems with driver");
+        } catch (RuntimeException e) {
+            log.warning("DBConnection4: Unknown error");
         }
         return conn;
     }

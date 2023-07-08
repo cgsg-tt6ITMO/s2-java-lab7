@@ -10,8 +10,10 @@ import server.handlers.Loader;
 import java.sql.*;
 import java.util.Stack;
 import java.util.function.Function;
+import java.util.logging.Logger;
 
 public class DBInitialization {
+    private Logger log;
     private final Connection connection;
 
     public DBInitialization(Connection connection) {
@@ -40,16 +42,22 @@ public class DBInitialization {
         try {
             Statement createSequence = connection.createStatement();
             createSequence.execute("CREATE SEQUENCE IF NOT EXISTS id_sequence START WITH 1 INCREMENT BY 1;");
+            log.info("Id sequence now exists");
         } catch (SQLException e) {
+            log.warning("Error while creating an id sequence");
             e.printStackTrace();
+        } catch (RuntimeException e) {
+            log.warning("Unknown error while creating an id sequence");
         }
     }
 
     public void initialize() {
+        log = Logger.getLogger(DBInitialization.class.getName());
         createIdSequence();
         createCollectionTable();
-        defaultFill();
+        //defaultFill();
         allTable();
+        log.info("Data base initialization is successful.");
     }
 
     private void createCollectionTable() {
@@ -72,27 +80,26 @@ public class DBInitialization {
                     locToName VARCHAR(45) NOT NULL,
                     distance DOUBLE PRECISION NULL
                 );""");
-            ResultSet resultSet = statement1.getResultSet();
-            //writeResSet(resultSet);
-            if (resultSet != null) {
-                resultSet.close();
-            }
+            log.info("table 's368924_LabaN7' now exists");
             statement1.close();
         } catch (SQLException e) {
+            log.warning("error while creating a table");
             e.printStackTrace();
+        } catch (RuntimeException e) {
+            log.warning("unknown error while creating a table");
         }
     }
 
     private void defaultFill() {
         try {
-            Statement statement1 = connection.createStatement();
-            String sql = "INSERT INTO s368924_LabaN7 (routeName,  coordinatesX, coordinatesY, creationTime, " +
-                    "locFromX, locFromY, locFromZ, locFromName, locToX, locToY, locToZ, locToName, distance)" + "\n" +
-                    "VALUES (";
             Stack<Route> stack = new Loader(System.getenv("JAVA_LABA_6")).load();
-            //for (var el : stack) {
-            var el = stack.get(0);
-                if (el.getCreationTime() != null) {
+            for (int i = 0; i < stack.size(); i++) {
+                var el = stack.get(i);
+                if (el != null && el.getCreationTime() != null) {
+                    Statement statement = connection.createStatement();
+                    String sql = "INSERT INTO s368924_LabaN7 (routeName,  coordinatesX, coordinatesY, creationTime, " +
+                            "locFromX, locFromY, locFromZ, locFromName, locToX, locToY, locToZ, locToName, distance)" + "\n" +
+                            "VALUES (";
                     var d = el.getCreationTime();
                     Function<Integer, String> intFormat = (num) -> (num > 9 ? "" + num : "0" + num);
                     Function<Location, String> locFormat = (loc) -> (loc.getX() + ", " + loc.getY() + ", " + loc.getZ() + ", '" + loc.getName() + "', ");
@@ -103,14 +110,12 @@ public class DBInitialization {
                             intFormat.apply(d.getSecond()) + "'";
                     sql += "'" + el.getName() + "', " + el.getCoordinates().getX() + ", " + el.getCoordinates().getY() + ", " + time + ", "
                             + locFormat.apply(el.getFrom()) + locFormat.apply(el.getTo()) + el.getDistance();
+                    sql += ");";
+                    //System.out.println(sql);
+                    statement.execute(sql);
+                    statement.close();
                 }
-            //}
-            sql += ");";
-            System.out.println(sql);
-            statement1.execute(sql);
-
-            statement1.close();
-
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

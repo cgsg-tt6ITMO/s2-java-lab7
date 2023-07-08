@@ -8,7 +8,7 @@ import resources.utility.Request;
 import resources.utility.Response;
 import resources.utility.Serializer;
 import server.databases.DBConnection;
-//import server.databases.DBInitialization;
+import server.databases.DBInitialization;
 import server.managers.CommandManager;
 
 import java.net.*;
@@ -19,7 +19,6 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -37,11 +36,11 @@ public class Server {
      */
     public Server() {}
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         DBConnection dbConnection = new DBConnection();
         Connection dbConn = dbConnection.connect();
-        //DBInitialization dbInit = new DBInitialization(dbConn);
-        //dbInit.initialize();
+        DBInitialization dbInit = new DBInitialization(dbConn);
+        dbInit.initialize();
     }
 
     /**

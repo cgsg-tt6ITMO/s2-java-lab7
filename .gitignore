@@ -24,3 +24,12 @@ trash/gs-maven-main/Jenkinsfile
 trash/gs-maven-main/initial/pom.xml
 trash/gs-maven-main/.gitignor
 *.class
+Server/out/production/Server/resources/jackson/jackson-datatype-jsr310-2.15.0-rc2.jar
+Server/out/production/Server/resources/jackson/jackson-annotations-2.15.0-rc2.jar
+Server/out/production/Server/resources/jackson/jackson-core-2.15.0-rc2.jar
+Server/out/production/Server/files/out.json
+Server/out/production/Server/files/demo.sql
+Server/out/production/Server/files/db.cfg
+Server/out/production/Server/resources/jackson/jackson-databind-2.15.0-rc2.jar
+trash/sql-time.jar.zip
+trash/apache-log4j-2.20.0-bin.zip

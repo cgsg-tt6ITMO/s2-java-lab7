@@ -29,9 +29,9 @@ public class CollectionManager {
     /**
      * Collection initialization.
      */
-    public CollectionManager(Loader loader) {
+    public CollectionManager(Stack<Route> defaultStack) {
         collectionType = "Stack";
         creationDate = ZonedDateTime.now();
-        stack = loader.load();
+        stack = defaultStack;
     }
 }

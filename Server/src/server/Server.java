@@ -7,8 +7,6 @@ import resources.utility.Deserializer;
 import resources.utility.Request;
 import resources.utility.Response;
 import resources.utility.Serializer;
-import server.databases.DBConnection;
-import server.databases.DBInitialization;
 import server.managers.CommandManager;
 
 import java.net.*;
@@ -18,7 +16,6 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -36,19 +33,12 @@ public class Server {
      */
     public Server() {}
 
-    public static void main(String[] args) {
-        DBConnection dbConnection = new DBConnection();
-        Connection dbConn = dbConnection.connect();
-        DBInitialization dbInit = new DBInitialization(dbConn);
-        dbInit.initialize();
-    }
-
     /**
      * Gets requests, handles them and sends responses.
      * Does all the manipulation with the collection.
      * @param args cmd arguments.
      */
-    public static void main1(String[] args) {
+    public static void main(String[] args) {
         int q = MAX_NUM_COMMANDS;
         InetAddress host;
         int port = 8080;
@@ -95,7 +85,7 @@ public class Server {
                             arr = Serializer.objSer(response).getBytes(StandardCharsets.UTF_8);
                         } else {
                             Request r = Deserializer.readReq(new String(arr));
-                            Response response = commandManager.runCommand(r.name(), r.args());
+                            Response response = commandManager.runCommand(r);
                             arr = Serializer.objSer(response).getBytes(StandardCharsets.UTF_8);
                         }
                         buf = ByteBuffer.wrap(arr);

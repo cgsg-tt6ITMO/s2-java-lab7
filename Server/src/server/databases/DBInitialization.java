@@ -3,6 +3,7 @@
  */
 package server.databases;
 
+import resources.task.Coordinates;
 import resources.task.Location;
 import resources.task.Route;
 import server.handlers.Loader;
@@ -51,24 +52,58 @@ public class DBInitialization {
         }
     }
 
-    public void initialize() {
+    private Stack<Route> getCollection() {
+        Stack<Route> routes = new Stack<>();
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute("SELECT * FROM s368924_LabaN7");
+            ResultSet rs = statement.getResultSet();
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String name = rs.getString("routeName");
+                Coordinates coords = new Coordinates(
+                        rs.getDouble("coordinatesX"),
+                        rs.getFloat("coordinatesY"));
+                Location from = new Location(
+                        rs.getFloat("locFromX"),
+                        rs.getFloat("locFromY"),
+                        rs.getLong("locFromZ"),
+                        rs.getString("locFromName"));
+                Location to = new Location(
+                        rs.getFloat("locToX"),
+                        rs.getFloat("locToY"),
+                        rs.getLong("locToZ"),
+                        rs.getString("locToName"));
+                Route r = new Route(id, name, coords, from, to);
+                routes.add(r);
+            }
+        } catch (SQLException e) {
+            log.warning("Error while getting a collection out of database");
+            e.printStackTrace();
+        }
+        return routes;
+    }
+
+    public Stack<Route> initialize() {
         log = Logger.getLogger(DBInitialization.class.getName());
         createIdSequence();
         createCollectionTable();
         //defaultFill();
-        allTable();
+        //allTable();
         log.info("Data base initialization is successful.");
+        return getCollection();
     }
 
     private void createCollectionTable() {
         try {
             Statement statement1 = connection.createStatement();
+            //statement1.execute("DROP TABLE IF EXISTS s368924_LabaN7");
             statement1.execute("""
                 CREATE TABLE IF NOT EXISTS s368924_LabaN7(
                     id bigint PRIMARY KEY DEFAULT nextval('id_sequence'),
                     routeName VARCHAR(45) NOT NULL,
-                    coordinatesX VARCHAR(45) NULL,
-                    coordinatesY VARCHAR(45) NULL,
+                    coordinatesX DOUBLE PRECISION NULL,
+                    coordinatesY FLOAT NULL,
                     creationTime TIMESTAMP WITHOUT TIME ZONE NULL,
                     locFromX FLOAT NULL,
                     locFromY FLOAT NOT NULL,
@@ -78,7 +113,8 @@ public class DBInitialization {
                     locToY FLOAT NOT NULL,
                     locToZ INT NULL,
                     locToName VARCHAR(45) NOT NULL,
-                    distance DOUBLE PRECISION NULL
+                    distance DOUBLE PRECISION NULL,
+                    author VARCHAR(45) NOT NULL
                 );""");
             log.info("table 's368924_LabaN7' now exists");
             statement1.close();
@@ -98,7 +134,7 @@ public class DBInitialization {
                 if (el != null && el.getCreationTime() != null) {
                     Statement statement = connection.createStatement();
                     String sql = "INSERT INTO s368924_LabaN7 (routeName,  coordinatesX, coordinatesY, creationTime, " +
-                            "locFromX, locFromY, locFromZ, locFromName, locToX, locToY, locToZ, locToName, distance)" + "\n" +
+                            "locFromX, locFromY, locFromZ, locFromName, locToX, locToY, locToZ, locToName, distance, author)\n" +
                             "VALUES (";
                     var d = el.getCreationTime();
                     Function<Integer, String> intFormat = (num) -> (num > 9 ? "" + num : "0" + num);
@@ -110,8 +146,8 @@ public class DBInitialization {
                             intFormat.apply(d.getSecond()) + "'";
                     sql += "'" + el.getName() + "', " + el.getCoordinates().getX() + ", " + el.getCoordinates().getY() + ", " + time + ", "
                             + locFormat.apply(el.getFrom()) + locFormat.apply(el.getTo()) + el.getDistance();
-                    sql += ");";
-                    //System.out.println(sql);
+                    sql += ", 'default user');";
+                    System.out.println(sql);
                     statement.execute(sql);
                     statement.close();
                 }
@@ -121,7 +157,7 @@ public class DBInitialization {
         }
     }
 
-    private void allTable() {
+    public void allTable() {
         try {
             Statement statement1 = connection.createStatement();
             statement1.execute("SELECT * FROM s368924_LabaN7");

@@ -4,20 +4,17 @@
 package server.commands;
 
 import resources.utility.Response;
-import server.handlers.Saver;
 
 /**
  * Handle 'exit' command.
  */
 public class ExitCommand extends AbstractCommand implements Command {
-    private final Saver saver;
 
     /**
      * Sets name and description of the command.
      */
-    public ExitCommand(Saver saver) {
+    public ExitCommand() {
         super("exit", "interrupts the program without saving;");
-        this.saver = saver;
     }
 
     /**
@@ -25,7 +22,6 @@ public class ExitCommand extends AbstractCommand implements Command {
      */
     @Override
     public Response execute(String args) {
-        saver.save();
         return new Response("EXIT...\n");
     }
 }

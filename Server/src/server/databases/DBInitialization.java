@@ -74,6 +74,7 @@ public class DBInitialization {
                         rs.getFloat("locToY"),
                         rs.getLong("locToZ"),
                         rs.getString("locToName"));
+                Long dist = rs.getLong("distance");
                 Route r = new Route(id, name, coords, from, to);
                 routes.add(r);
             }

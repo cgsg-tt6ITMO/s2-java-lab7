@@ -44,7 +44,7 @@ public class Deserializer {
         try {
             res = mapper.readValue(json, Request.class);
         } catch (JsonProcessingException e) {
-            return new Request("exit", "error");
+            return new Request("exit", "error", "error");
         }
         return res;
     }

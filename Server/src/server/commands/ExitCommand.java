@@ -3,6 +3,8 @@
  */
 package server.commands;
 
+import resources.utility.Arguments;
+import resources.utility.Request;
 import resources.utility.Response;
 
 /**
@@ -21,7 +23,7 @@ public class ExitCommand extends AbstractCommand implements Command {
      * Aborts the program. And saves data before aborting.
      */
     @Override
-    public Response execute(String args) {
+    public Response execute(Arguments args) {
         return new Response("EXIT...\n");
     }
 }

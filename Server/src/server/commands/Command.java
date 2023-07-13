@@ -3,6 +3,7 @@
  */
 package server.commands;
 
+import resources.utility.Arguments;
 import resources.utility.Response;
 
 /**
@@ -13,5 +14,5 @@ public interface Command {
     /**
      * Run the command.
      */
-    Response execute(String args);
+    Response execute(Arguments args);
 }

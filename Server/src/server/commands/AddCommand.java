@@ -5,6 +5,7 @@ package server.commands;
 
 import resources.task.Location;
 import resources.task.Route;
+import resources.utility.Arguments;
 import resources.utility.Response;
 import resources.utility.Deserializer;
 
@@ -35,8 +36,8 @@ public class AddCommand extends AbstractCommand implements Command {
      * Adds one element from console to the collection.
      */
     @Override
-    public Response execute(String args) {
-        Route el = Deserializer.readRoute(args);
+    public Response execute(Arguments args) {
+        Route el = Deserializer.readRoute(args.getData());
         try {
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO s368924_LabaN7 (routeName,  coordinatesX, coordinatesY, creationTime, " +
@@ -53,7 +54,7 @@ public class AddCommand extends AbstractCommand implements Command {
                     intFormat.apply(d.getSecond()) + "'";
             sql += "'" + el.getName() + "', " + el.getCoordinates().getX() + ", " + el.getCoordinates().getY() + ", " + time + ", "
                     + locFormat.apply(el.getFrom()) + locFormat.apply(el.getTo()) + el.getDistance();
-            sql += ", 'default user');";
+            sql += ", '" + args.getAuthor() + "');";
             statement.execute(sql);
             // раз не вылетела ошибка, всё успешно, и можно менять коллекцию в памяти
             stack.add(el);

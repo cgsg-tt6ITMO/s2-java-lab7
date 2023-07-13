@@ -36,32 +36,17 @@ public class Client {
         SocketAddress addr;
         byte[] arr;
         ByteBuffer buf;
-        CommandHandler commandHandler = new CommandHandler(sc, 0);
+        CommandHandler commandHandler;
 
         try (SocketChannel sock = SocketChannel.open()) {
             host = InetAddress.getLocalHost();
             addr = new InetSocketAddress(host, port);
             sock.connect(addr);
-            System.out.println("Type 'start' to begin...");
+            System.out.println("Enter your name... (Later: password also)");
+            String author = sc.nextLine();
+            commandHandler = new CommandHandler(sc, 0, author);
 
-            if (sc.nextLine().equals("start")) {
-                Request r = new Request("start", "");
-                arr = Serializer.objSer(r).getBytes(StandardCharsets.UTF_8);
-                buf = ByteBuffer.wrap(arr);
-                sock.write(buf);
-
-                buf.clear();
-                buf = ByteBuffer.allocate(8192);
-                sock.read(buf);
-
-                Response resp = Deserializer.readResp(new String(buf.array()));
-                try {
-                    commandHandler = new CommandHandler(sc, Integer.parseInt(resp.getMessage()));
-                    System.out.println("Start successful");
-                } catch (NumberFormatException numberFormatException) {
-                }
-                buf.clear();
-            }
+            System.out.println("Type command name...");
             while (sc.hasNext()) {
                 try {
                     arr = commandHandler.run();

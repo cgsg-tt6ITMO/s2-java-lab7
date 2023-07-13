@@ -3,12 +3,15 @@
  */
 package resources.utility;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import resources.task.Route;
 
 import java.io.IOException;
+
+import static com.fasterxml.jackson.annotation.PropertyAccessor.FIELD;
 
 /**
  * Makes strings out of objects in order to send data through Streams of bytes.
@@ -17,6 +20,7 @@ public class Serializer {
     private static final ObjectMapper mapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+            //.setVisibility(FIELD, JsonAutoDetect.Visibility.ANY);
 
     /**
      * Default constructor.
@@ -37,6 +41,7 @@ public class Serializer {
 
         } catch (IOException e) {
             System.err.println("error while " + r.getClass() + " serialization:" + e.getMessage());
+            e.printStackTrace();
         }
         return res;
     }

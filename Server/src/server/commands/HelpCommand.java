@@ -3,6 +3,8 @@
  */
 package server.commands;
 
+import resources.utility.Arguments;
+import resources.utility.Request;
 import resources.utility.Response;
 import server.managers.CommandManager;
 
@@ -25,7 +27,7 @@ public class HelpCommand extends AbstractCommand implements Command {
      * Prints all commands and their descriptions.
      */
     @Override
-    public Response execute(String args) {
+    public Response execute(Arguments args) {
         StringBuilder sb = new StringBuilder("COMMANDS AVAILABLE:\n");
 
         for (var key : commandManager.getCommands().keySet()) {

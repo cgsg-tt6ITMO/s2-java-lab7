@@ -4,6 +4,8 @@
 package server.handlers;
 
 import resources.task.Route;
+import resources.utility.Arguments;
+import resources.utility.Request;
 import resources.utility.Response;
 import server.commands.Command;
 
@@ -16,7 +18,7 @@ public class GetDefaultCollectionSize implements Command {
     }
 
     @Override
-    public Response execute(String args) {
+    public Response execute(Arguments args) {
         if (!routeStack.isEmpty()) {
             return new Response(String.valueOf(routeStack.lastElement().getId()));
         }

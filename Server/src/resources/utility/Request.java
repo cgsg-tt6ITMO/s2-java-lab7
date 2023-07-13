@@ -5,7 +5,26 @@ package resources.utility;
 
 /**
  * Class that makes an object of request.
- * @param name - name of command.
- * @param args - arguments for the command.
  */
-public record Request(String name, String args) {}
+public class Request {
+    private String commandName;
+
+    private Arguments args;
+
+    public String getCommandName() {
+        return commandName;
+    }
+
+    public Arguments getArgs() {
+        return args;
+    }
+
+    public Request() {
+        this("error", "", "unknown");
+    }
+
+    public Request(String commandName, String data, String author) {
+        this.commandName = commandName;
+        this.args = new Arguments(data, author);
+    }
+}

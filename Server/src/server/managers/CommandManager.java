@@ -20,6 +20,7 @@ import java.util.Stack;
  */
 public class CommandManager {
     private static final HashMap<String, Command> commands = new HashMap<>();
+    private final CollectionManager collectionManager;
 
     /**
      * Adds instances of all commands to list.
@@ -29,7 +30,7 @@ public class CommandManager {
         Connection dbConn = dbConnection.connect();
         DBInitialization dbInit = new DBInitialization(dbConn);
         Stack<Route> defaultStack = dbInit.initialize();
-        CollectionManager collectionManager = new CollectionManager(defaultStack);
+        collectionManager = new CollectionManager(defaultStack);
         Stack<Route> stack = collectionManager.stack();
 
         GetDefaultCollectionSize defaultSize = new GetDefaultCollectionSize(stack);
@@ -38,13 +39,13 @@ public class CommandManager {
         ShowCommand show = new ShowCommand(stack, dbConn);
         ExitCommand exit = new ExitCommand();
         AddCommand add = new AddCommand(stack, dbConn);
-        //ClearCommand clear = new ClearCommand(stack);
+        RemoveByIdCommand removeById = new RemoveByIdCommand(stack, dbConn);
+        ClearCommand clear = new ClearCommand(stack, dbConn);
+        RemoveLowerCommand removeLower = new RemoveLowerCommand(stack, dbConn);
         //PrintDescDistCommand descDist = new PrintDescDistCommand(stack);
         //FilterGreaterDistCommand filterGreaterDist = new FilterGreaterDistCommand(stack);
         //AddIfMaxCommand addIfMax = new AddIfMaxCommand(stack);
         //GroupByFromCommand groupByFrom = new GroupByFromCommand(stack);
-        //RemoveByIdCommand deleteById = new RemoveByIdCommand(stack);
-        //RemoveLowerCommand removeLower = new RemoveLowerCommand(stack);
         //InsertAtCommand insertAt = new InsertAtCommand(stack, this);
         //UpdateCommand update = new UpdateCommand(stack);
 
@@ -55,14 +56,14 @@ public class CommandManager {
         commands.put(show.getName(), show);
         commands.put(exit.getName(), exit);
         commands.put(add.getName(), add);
-        /*
+        commands.put(removeById.getName(), removeById);
         commands.put(clear.getName(), clear);
+        commands.put(removeLower.getName(), removeLower);
+        /*
         commands.put(descDist.getName(), descDist);
         commands.put(filterGreaterDist.getName(), filterGreaterDist);
         commands.put(addIfMax.getName(), addIfMax);
         commands.put(groupByFrom.getName(), groupByFrom);
-        commands.put(deleteById.getName(), deleteById);
-        commands.put(removeLower.getName(), removeLower);
         commands.put(insertAt.getName(), insertAt);
         commands.put(update.getName(), update);
          */
@@ -75,16 +76,19 @@ public class CommandManager {
         return commands;
     }
 
-    public Response runCommand(String name, String args) {
-        return runCommand(new Request(name, args));
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
+    }
+
+    public Response runCommand(String name, String args, String author) {
+        return runCommand(new Request(name, args, author));
     }
 
     public Response runCommand(Request r) {
-        if (commands.containsKey(r.name())) {
-            return commands.get(r.name()).execute(r.args());
+        if (commands.containsKey(r.getCommandName())) {
+            return commands.get(r.getCommandName()).execute(r.getArgs());
         } else {
-            return new Response("ERROR: " + r.name() + " command doesn't exist");
+            return new Response("ERROR: " + r.getCommandName() + " command doesn't exist");
         }
     }
-
 }

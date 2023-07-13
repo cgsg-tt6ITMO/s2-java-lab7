@@ -32,4 +32,13 @@ Server/out/production/Server/files/demo.sql
 Server/out/production/Server/files/db.cfg
 Server/out/production/Server/resources/jackson/jackson-databind-2.15.0-rc2.jar
 trash/sql-time.jar.zip
-trash/apache-log4j-2.20.0-bin.zip
+trash/apache-log4j-2.20.0-bin.zip                                  
+Client/out/production/Client/client/Client.class
+Client/out/production/Client/client/CommandHandler.class
+Client/out/production/Client/client/ExecuteScript.class
+Client/out/production/Client/client/Deserializer.class
+Client/out/production/Client/client/Request.class
+Client/out/production/Client/client/Serializer.class
+Client/out/production/Client/client/Client.class 
+
+Client/out/production/Client/resources/utility/Deserializer.class

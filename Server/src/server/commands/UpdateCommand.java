@@ -17,7 +17,7 @@ import static java.lang.Math.sqrt;
 /**
  * Handle 'update' method.
  */
-public class UpdateCommand extends AbstractCommand implements Command {
+public class UpdateCommand extends AbstractCommand implements Comand {
     private final Stack<Route> stack;
 
     /**

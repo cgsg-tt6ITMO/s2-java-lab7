@@ -3,6 +3,8 @@
  */
 package server.commands;
 
+import resources.utility.Arguments;
+import resources.utility.Request;
 import resources.utility.Response;
 import server.managers.CollectionManager;
 
@@ -27,7 +29,7 @@ public class InfoCommand extends AbstractCommand implements Command{
      * Prints to screen all the attributes of the collection.
      */
     @Override
-    public Response execute(String args) {
+    public Response execute(Arguments args) {
         var date = collectionManager.getCreationDate();
         return new Response(("COLLECTION INFO:\n"
                 + "creation time: " + date.getHour() + ":" + (date.getMinute() > 9 ? date.getMinute() : "0" + date.getMinute())

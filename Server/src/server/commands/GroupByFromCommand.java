@@ -12,7 +12,7 @@ import java.util.Stack;
 /**
  * Handle 'group_counting_by_from' method.
  */
-public class GroupByFromCommand extends AbstractCommand implements Command {
+public class GroupByFromCommand extends AbstractCommand implements Comand {
     private final Stack<Route> stack;
 
     /**

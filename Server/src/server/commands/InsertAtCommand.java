@@ -15,7 +15,7 @@ import java.util.Stack;
 /**
  * Handle 'insert_at' method.
  */
-public class InsertAtCommand extends AbstractCommand implements Command {
+public class InsertAtCommand extends AbstractCommand implements Comand {
     private final Stack<Route> stack;
     private final CommandManager cm;
 
@@ -54,7 +54,7 @@ public class InsertAtCommand extends AbstractCommand implements Command {
             try {
                 if (id > idHandler.getLastId()) {
                     idHandler.setLastId(id - 1);
-                    cm.runCommand("add", json.toString());
+                    ///cm.runCommand("add", json.toString());
                 }
                 else if (id < 1) {
                     System.err.println("insert_at: TODO надо кинуть Response ошибка Incorrect id: less than 1\n");
@@ -70,7 +70,7 @@ public class InsertAtCommand extends AbstractCommand implements Command {
                             el.setId(el.getId() + 1);
                         }
                     }
-                    cm.runCommand("add", json.toString());
+                    ///cm.runCommand("add", json.toString());
                     stack.peek().setId(id);
                 }
                 loop = false;
@@ -80,10 +80,14 @@ public class InsertAtCommand extends AbstractCommand implements Command {
         } while (loop);
 
         if (stack.size() > n) {
-            cm.runCommand("sort", "");
+            //todo
+            ///new SortingCommand(cm.getCollectionManager()).execute("");
+            //cm.runCommand("sort", "");
             return new Response("INSERT AT:\nInserted successfully.\n");
         }
-        cm.runCommand("sort", "");
+        //cm.runCommand("sort", "");
+        //todo
+        ///new SortingCommand(cm.getCollectionManager()).execute("");
         return new Response("INSERT AT:\n");
     }
 }

@@ -12,7 +12,7 @@ import java.util.Stack;
 /**
  * Handle 'add_if_max' method.
  */
-public class AddIfMaxCommand extends AbstractCommand implements Command {
+public class AddIfMaxCommand extends AbstractCommand implements Comand {
     private final Stack<Route> stack;
 
     /**

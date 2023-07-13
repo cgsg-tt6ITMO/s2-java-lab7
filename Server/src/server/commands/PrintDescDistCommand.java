@@ -13,7 +13,7 @@ import java.util.Stack;
 /**
  * Handle 'print_field_descending_distance' method.
  */
-public class PrintDescDistCommand extends AbstractCommand implements Command {
+public class PrintDescDistCommand extends AbstractCommand implements Comand {
     private final Stack<Route> stack;
 
     /**

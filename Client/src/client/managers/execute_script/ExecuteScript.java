@@ -24,9 +24,11 @@ import java.util.Scanner;
 public class ExecuteScript {
     private static AskInputManager inputManager;
     private final ExecuteScriptHandler handler = new ExecuteScriptHandler();
+    private final String author;
 
-    public ExecuteScript(AskInputManager inpMan) {
+    public ExecuteScript(AskInputManager inpMan, String author) {
         inputManager = inpMan;
+        this.author = author;
     }
 
     public String makeReq(int stackSize) {
@@ -59,7 +61,7 @@ public class ExecuteScript {
                     if (fileScanner.hasNext()) {
                         stackSize += 1;
                         Request st = Deserializer.readReq(new String(
-                                new CommandHandler(fileScanner, stackSize).run()));
+                                new CommandHandler(fileScanner, stackSize, author).run()));
                         reqs[i] = st;
                     }
                 }

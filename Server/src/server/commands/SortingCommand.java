@@ -3,6 +3,8 @@
  */
 package server.commands;
 
+import resources.utility.Arguments;
+import resources.utility.Request;
 import resources.utility.Response;
 import server.managers.CollectionManager;
 import resources.task.Route;
@@ -27,7 +29,7 @@ public class SortingCommand implements Command {
      * Sorts the Stack by id.
      */
     @Override
-    public Response execute(String args) {
+    public Response execute(Arguments args) {
         Comparator<Route> routeComparator = Comparator.comparing(Route::getId);
         storage.stack().sort(routeComparator);
         return new Response();

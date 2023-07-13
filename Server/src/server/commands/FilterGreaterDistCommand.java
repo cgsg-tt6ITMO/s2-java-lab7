@@ -12,7 +12,7 @@ import java.util.Stack;
 /**
  * Handle 'filter_greater_than_distance' method.
  */
-public class FilterGreaterDistCommand extends AbstractCommand implements Command {
+public class FilterGreaterDistCommand extends AbstractCommand implements Comand {
     private final Stack<Route> stack;
 
     /**

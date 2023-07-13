@@ -44,7 +44,7 @@ public class Deserializer {
         try {
             res = mapper.readValue(json, Request.class);
         } catch (JsonProcessingException e) {
-            return new Request("exit", "error");
+            return new Request("exit", "error", "error");
         }
         return res;
     }
@@ -64,7 +64,6 @@ public class Deserializer {
         Route res = null;
         try {
             res = mapper.readValue(json, Route.class);
-
         } catch (Exception ex) {
             System.err.println("Route input from json:" + ex.getMessage());
             ex.printStackTrace();

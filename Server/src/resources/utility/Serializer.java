@@ -37,6 +37,7 @@ public class Serializer {
 
         } catch (IOException e) {
             System.err.println("error while " + r.getClass() + " serialization:" + e.getMessage());
+            e.printStackTrace();
         }
         return res;
     }

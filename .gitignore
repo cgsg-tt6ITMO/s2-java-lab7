@@ -42,3 +42,10 @@ Client/out/production/Client/client/Serializer.class
 Client/out/production/Client/client/Client.class 
 
 Client/out/production/Client/resources/utility/Deserializer.class
+Client/out/production/Client/resources/jackson/jackson-datatype-jsr310-2.15.0-rc2.jar
+Client/out/production/Client/resources/jackson/jackson-databind-2.15.0-rc2.jar
+Client/out/production/Client/resources/jackson/jackson-core-2.15.0-rc2.jar
+Client/out/production/Client/resources/jackson/jackson-annotations-2.15.0-rc2.jar
+Client/out/production/Client/files/ins_at_2.txt
+Client/out/production/Client/files/ins_at_1.txt
+Client/out/production/Client/files/inp.txt

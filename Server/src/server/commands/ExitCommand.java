@@ -4,7 +4,6 @@
 package server.commands;
 
 import resources.utility.Arguments;
-import resources.utility.Request;
 import resources.utility.Response;
 
 /**

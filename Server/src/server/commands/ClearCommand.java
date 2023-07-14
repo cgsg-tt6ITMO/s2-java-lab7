@@ -5,7 +5,6 @@ package server.commands;
 
 import resources.task.Route;
 import resources.utility.Arguments;
-import resources.utility.Deserializer;
 import resources.utility.Response;
 
 import java.sql.Connection;

@@ -3,46 +3,79 @@
  */
 package server.commands;
 
+import resources.task.Location;
+import resources.utility.Arguments;
 import resources.utility.Response;
 import resources.task.Route;
 import resources.utility.Deserializer;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Stack;
+import java.util.function.Function;
 
 /**
  * Handle 'add_if_max' method.
  */
-public class AddIfMaxCommand extends AbstractCommand implements Comand {
+public class AddIfMaxCommand extends AbstractCommand implements Command {
     private final Stack<Route> stack;
+    private final Connection conn;
 
     /**
      * Set name and description for 'add_if_max' command.
      * @param stack storage of the collection.
      */
-    public AddIfMaxCommand(Stack<Route> stack) {
+    public AddIfMaxCommand(Stack<Route> stack, Connection connection) {
         super("add_if_max", "adds the element if it is larger than every element in collection;");
         this.stack = stack;
+        this.conn = connection;
     }
 
     /**
      * Adds the element if it is larger than every element stored in collection.
      */
     @Override
-    public Response execute(String args) {
-        Route route = Deserializer.readRoute(args);
-
-        boolean flag = true;
-        for (var el : stack) {
-            if (route.compareTo(el) != 1) {
-                flag = false;
-                break;
+    public Response execute(Arguments args) {
+        Route route = Deserializer.readRoute(args.getData());
+        try {
+            Statement statement1 = conn.createStatement();
+            // сначала можно было бы проверить, макс или не макс
+            statement1.execute("SELECT MAX(distance) FROM s368924_LabaN7");
+            ResultSet rs = statement1.getResultSet();
+            double maxDist = -1;
+            if (rs.next()) {
+                maxDist =  rs.getDouble(1);
+                //System.out.println("max dist " + maxDist);
             }
-        }
-        if (flag) {
-            stack.add(route);
-            return new Response("ADD IF MAX:\nNEW ELEMENT ADDED SUCCESSFULLY\n");
-        }
-        return new Response("ADD IF MAX:\nThe element is not max, so it was not added.\n");
+            if (route.getDistance() > maxDist) {
+                Statement statement2 = conn.createStatement();
+                String sql = "INSERT INTO s368924_LabaN7 (routeName,  coordinatesX, coordinatesY, creationTime, " +
+                        "locFromX, locFromY, locFromZ, locFromName, locToX, locToY, locToZ, locToName, distance, author)\n" +
+                        "VALUES (";
+                var d = route.getCreationTime();
+                Function<Integer, String> intFormat = (num) -> (num > 9 ? "" + num : "0" + num);
+                Function<Location, String> locFormat = (loc) ->
+                        (loc.getX() + ", " + loc.getY() + ", " + loc.getZ() + ", '" + loc.getName() + "', ");
+                String time = "'" + d.getYear() + "-" + intFormat.apply(d.getMonthValue()) + "-" +
+                        intFormat.apply(d.getDayOfMonth()) + " " +
+                        intFormat.apply(d.getHour()) + ":" +
+                        intFormat.apply(d.getMinute()) + ":" +
+                        intFormat.apply(d.getSecond()) + "'";
+                sql += "'" + route.getName() + "', " + route.getCoordinates().getX() + ", " + route.getCoordinates().getY() + ", " + time + ", "
+                        + locFormat.apply(route.getFrom()) + locFormat.apply(route.getTo()) + route.getDistance();
+                sql += ", '" + args.getAuthor() + "');";
+                statement2.execute(sql);
 
+                stack.add(route);
+                return new Response("ADD IF MAX:\nNEW ELEMENT ADDED SUCCESSFULLY\n");
+            }
+            return new Response("ADD IF MAX:\nThe element is not max, so it was not added.\n");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new Response("ERROR\n");
     }
 }

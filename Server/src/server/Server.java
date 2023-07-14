@@ -7,7 +7,7 @@ import resources.utility.Deserializer;
 import resources.utility.Request;
 import resources.utility.Response;
 import resources.utility.Serializer;
-import server.managers.CommandManager;
+import server.managers.CollectionManager;
 
 import java.net.*;
 import java.nio.ByteBuffer;
@@ -39,20 +39,17 @@ public class Server {
      * @param args cmd arguments.
      */
     public static void main(String[] args) {
-        int q = MAX_NUM_COMMANDS;
         InetAddress host;
         int port = 8080;
         SocketAddress addr;
-        ServerSocketChannel serv;
         SocketChannel sock;
         ByteBuffer buf;
-        CommandManager commandManager = new CommandManager();
+        CollectionManager commandManager = new CollectionManager();
         Selector sel;
 
-        try {
+        try (ServerSocketChannel serv = ServerSocketChannel.open()) {
             host = InetAddress.getLocalHost();
             addr = new InetSocketAddress(host, port);
-            serv = ServerSocketChannel.open();
             serv.bind(addr);
             sel = Selector.open();
             serv.configureBlocking(false);
@@ -89,7 +86,6 @@ public class Server {
                             arr = Serializer.objSer(response).getBytes(StandardCharsets.UTF_8);
                         }
                         buf = ByteBuffer.wrap(arr);
-                        //System.out.println(new String(arr));
                         sock.write(buf);
                         arr = new byte[8192];
                         sock.configureBlocking(false);

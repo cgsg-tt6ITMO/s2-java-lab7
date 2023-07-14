@@ -40,9 +40,6 @@ public class RemoveLowerCommand extends AbstractCommand implements Command {
         try {
             String user = args.getAuthor();
             Statement statement1 = conn.createStatement();
-            System.out.println("distances: " + route.getDistance());
-
-
             boolean doExist = statement1.execute("SELECT id FROM s368924_LabaN7 WHERE author = '" + user +
                     "' AND distance < " + route.getDistance());
             System.out.println(doExist);

@@ -4,23 +4,23 @@
 package server.commands;
 
 import resources.utility.Arguments;
-import resources.utility.Request;
 import resources.utility.Response;
-import server.managers.CommandManager;
+
+import java.util.HashMap;
 
 /**
  * Handle 'help' method.
  */
 public class HelpCommand extends AbstractCommand implements Command {
-    private final CommandManager commandManager;
+    private final HashMap<String, Command> commands;
 
     /**
      * Set name and description for 'help' command.
-     * @param cm - CommandManager.
+     * @param commands - HashMap of commands (name of the command, command class).
      */
-    public HelpCommand(CommandManager cm) {
+    public HelpCommand(HashMap<String, Command> commands) {
         super("help", "prints list of all commands and their descriptions;");
-        this.commandManager = cm;
+        this.commands = commands;
     }
 
     /**
@@ -29,10 +29,9 @@ public class HelpCommand extends AbstractCommand implements Command {
     @Override
     public Response execute(Arguments args) {
         StringBuilder sb = new StringBuilder("COMMANDS AVAILABLE:\n");
-
-        for (var key : commandManager.getCommands().keySet()) {
-            if (commandManager.getCommands().get(key) instanceof AbstractCommand) {
-                sb.append(commandManager.getCommands().get(key)).append("\n");
+        for (var key : commands.keySet()) {
+            if (commands.get(key) instanceof AbstractCommand) {
+                sb.append(commands.get(key)).append("\n");
             }
         }
         sb.append("execute_script - runs input data from a script file.\n\n");

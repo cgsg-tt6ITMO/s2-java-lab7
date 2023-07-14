@@ -4,25 +4,24 @@
 package server.commands;
 
 import resources.utility.Arguments;
-import resources.utility.Request;
 import resources.utility.Response;
-import server.managers.CollectionManager;
 import resources.task.Route;
 
 import java.util.Comparator;
+import java.util.Stack;
 
 /**
  * Sorts the collection.
  * (You cannot call it, so it doesn't have description and name)
  */
 public class SortingCommand implements Command {
-    private final CollectionManager storage;
+    private final Stack<Route> stack;
 
     /**
-     * @param collectionManager storage of the collection.
+     * @param stack storage of the collection.
      */
-    public SortingCommand(CollectionManager collectionManager) {
-        storage = collectionManager;
+    public SortingCommand(Stack<Route> stack) {
+        this.stack = stack;
     }
 
     /**
@@ -31,7 +30,7 @@ public class SortingCommand implements Command {
     @Override
     public Response execute(Arguments args) {
         Comparator<Route> routeComparator = Comparator.comparing(Route::getId);
-        storage.stack().sort(routeComparator);
+        stack.sort(routeComparator);
         return new Response();
     }
 }

@@ -5,7 +5,7 @@ package server.commands;
 
 import resources.task.Route;
 import resources.utility.Response;
-import server.managers.CommandManager;
+import server.managers.CollectionManager;
 import resources.utility.IdHandler;
 
 import java.util.InputMismatchException;
@@ -17,13 +17,13 @@ import java.util.Stack;
  */
 public class InsertAtCommand extends AbstractCommand implements Comand {
     private final Stack<Route> stack;
-    private final CommandManager cm;
+    private final CollectionManager cm;
 
     /**
      * Set name and description for 'insert_at' command.
      * @param stack storage of the collection.
      */
-    public InsertAtCommand(Stack<Route> stack, CommandManager commandManager) {
+    public InsertAtCommand(Stack<Route> stack, CollectionManager commandManager) {
         super("insert_at", "insert an element into place of inputted id;");
         this.stack = stack;
         this.cm = commandManager;

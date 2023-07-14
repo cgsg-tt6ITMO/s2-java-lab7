@@ -7,9 +7,9 @@ package resources.utility;
  * Class that makes an object of request.
  */
 public class Request {
-    private String commandName;
+    private final String commandName;
 
-    private Arguments args;
+    private final Arguments args;
 
     public String getCommandName() {
         return commandName;

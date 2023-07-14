@@ -42,9 +42,6 @@ public class ShowCommand extends AbstractCommand implements Command{
                 sb.append("The collection is empty.");
                 return new Response(new String(sb));
             }
-
-            var rsMeta = rs.getMetaData();
-            int colNum = rsMeta.getColumnCount();
             sb.append("id\t\troutename\t\tcoordinates\t\tlocation from\t\tlocation to\t\ttime\t\tdist\t\tauthor").
             append("\n\n");
 

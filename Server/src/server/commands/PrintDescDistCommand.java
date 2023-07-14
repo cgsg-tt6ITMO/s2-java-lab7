@@ -4,6 +4,7 @@
 package server.commands;
 
 import resources.task.Route;
+import resources.utility.Arguments;
 import resources.utility.Response;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Stack;
 /**
  * Handle 'print_field_descending_distance' method.
  */
-public class PrintDescDistCommand extends AbstractCommand implements Comand {
+public class PrintDescDistCommand extends AbstractCommand implements Command {
     private final Stack<Route> stack;
 
     /**
@@ -29,8 +30,8 @@ public class PrintDescDistCommand extends AbstractCommand implements Comand {
      * Prints distances in descending order.
      */
     @Override
-    public Response execute(String args) {
-        StringBuilder sb = new StringBuilder("ALL DISTANCES IN DESCENDING ORDER:");
+    public Response execute(Arguments args) {
+        StringBuilder sb = new StringBuilder("ALL DISTANCES IN DESCENDING ORDER:\n");
         ArrayList<Double> distances = new ArrayList<>();
         for (var el : stack) {
             distances.add(el.getDistance());

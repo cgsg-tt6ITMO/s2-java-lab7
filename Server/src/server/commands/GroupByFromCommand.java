@@ -4,6 +4,7 @@
 package server.commands;
 
 import resources.task.Route;
+import resources.utility.Arguments;
 import resources.utility.Response;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Stack;
 /**
  * Handle 'group_counting_by_from' method.
  */
-public class GroupByFromCommand extends AbstractCommand implements Comand {
+public class GroupByFromCommand extends AbstractCommand implements Command {
     private final Stack<Route> stack;
 
     /**
@@ -28,8 +29,8 @@ public class GroupByFromCommand extends AbstractCommand implements Comand {
      * Outputs numbers of elements with the same from.
      */
     @Override
-    public Response execute(String args) {
-        StringBuilder sb = new StringBuilder("GROUP COUNTING BY 'FROM':");
+    public Response execute(Arguments args) {
+        StringBuilder sb = new StringBuilder("GROUP COUNTING BY 'FROM':\n");
         HashMap<String, Integer> grouped = new HashMap<>();
 
         for (var el : stack) {

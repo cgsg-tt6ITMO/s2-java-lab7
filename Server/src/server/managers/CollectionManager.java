@@ -37,11 +37,10 @@ public class CollectionManager {
         ClearCommand clear = new ClearCommand(stack, dbConn);
         AddIfMaxCommand addIfMax = new AddIfMaxCommand(stack, dbConn);
         RemoveLowerCommand removeLower = new RemoveLowerCommand(stack, dbConn);
-        //PrintDescDistCommand descDist = new PrintDescDistCommand(stack);
-        //FilterGreaterDistCommand filterGreaterDist = new FilterGreaterDistCommand(stack);
-        //GroupByFromCommand groupByFrom = new GroupByFromCommand(stack);
-        //InsertAtCommand insertAt = new InsertAtCommand(stack, this);
-        //UpdateCommand update = new UpdateCommand(stack);
+        PrintDescDistCommand descDist = new PrintDescDistCommand(stack);
+        FilterGreaterDistCommand filterGreaterDist = new FilterGreaterDistCommand(stack);
+        GroupByFromCommand groupByFrom = new GroupByFromCommand(stack);
+        UpdateCommand update = new UpdateCommand(stack, dbConn);
 
         commands.put(help.getName(), help);
         commands.put(info.getName(), info);
@@ -53,13 +52,10 @@ public class CollectionManager {
         commands.put(removeLower.getName(), removeLower);
         commands.put(addIfMax.getName(), addIfMax);
         commands.put("sort", new SortingCommand(stack));
-        /*
         commands.put(descDist.getName(), descDist);
         commands.put(filterGreaterDist.getName(), filterGreaterDist);
         commands.put(groupByFrom.getName(), groupByFrom);
-        commands.put(insertAt.getName(), insertAt);
         commands.put(update.getName(), update);
-         */
     }
 
     public Response runCommand(Request r) {

@@ -4,6 +4,7 @@
 package server.commands;
 
 import resources.task.Route;
+import resources.utility.Arguments;
 import resources.utility.Response;
 import resources.utility.Deserializer;
 
@@ -12,7 +13,7 @@ import java.util.Stack;
 /**
  * Handle 'filter_greater_than_distance' method.
  */
-public class FilterGreaterDistCommand extends AbstractCommand implements Comand {
+public class FilterGreaterDistCommand extends AbstractCommand implements Command {
     private final Stack<Route> stack;
 
     /**
@@ -28,9 +29,9 @@ public class FilterGreaterDistCommand extends AbstractCommand implements Comand 
      * Shows elements with distance greater than the inputted one.
      */
     @Override
-    public Response execute(String args) {
+    public Response execute(Arguments args) {
         StringBuilder sb = new StringBuilder("ROUTES WITH DIST GREATER THAN INPUTTED:\n");
-        Double distance = Deserializer.readDouble(args);
+        Double distance = Deserializer.readDouble(args.getData());
         for (var el : stack) {
             if (el.getDistance() > distance) {
                 sb.append("ID: \t\t").append(el.getId()).append("\nName: \t\t").append(el.getName())

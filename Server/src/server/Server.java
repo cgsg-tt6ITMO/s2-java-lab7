@@ -76,8 +76,10 @@ public class Server {
                             Request[] reqs = Deserializer.readArr(new String(arr));
                             ArrayList<Response> response = new ArrayList<>();
                             for (Request r : reqs) {
-                                Response res = commandManager.runCommand(r);
-                                response.add(res);
+                                if (r != null) {
+                                    Response res = commandManager.runCommand(r);
+                                    response.add(res);
+                                }
                             }
                             arr = Serializer.objSer(response).getBytes(StandardCharsets.UTF_8);
                         } else {

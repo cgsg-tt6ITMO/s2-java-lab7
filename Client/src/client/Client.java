@@ -6,16 +6,11 @@ package client;
 import client.managers.CommandHandler;
 import client.managers.DisplayResponse;
 import resources.exceptions.NoSuchCommandException;
-import resources.utility.Deserializer;
-import resources.utility.Request;
-import resources.utility.Response;
-import resources.utility.Serializer;
 
 import java.io.IOException;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**

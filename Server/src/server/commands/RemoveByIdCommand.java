@@ -35,7 +35,6 @@ public class RemoveByIdCommand extends AbstractCommand implements Command {
      */
     @Override
     public Response execute(Arguments args) {
-        StringBuilder sb = new StringBuilder("REMOVE BY ID:\n");
         try {
             Long id = Deserializer.readLong(args.getData());
             Statement statement = conn.createStatement();
@@ -43,12 +42,9 @@ public class RemoveByIdCommand extends AbstractCommand implements Command {
             if (doExist) {
                 statement.execute("DELETE FROM s368924_LabaN7 WHERE id = " + id + "AND author = '" + args.getAuthor() + "'");
                 stack.removeIf(el -> el.getId().equals(id));
-                sb.append("An element with id = " + id + " was successfully removed.\n\n");
+                return new Response("REMOVE BY ID:\nAn element with id = " + id + " was successfully removed.\n\n");
             }
-            else {
-                sb.append("An element with this id doesn't exists or you don't have rights to remove it.\n\n");
-            }
-            return new Response(new String(sb));
+            return new Response("REMOVE BY ID:\nAn element with this id doesn't exists or you don't have rights to remove it.\n\n");
         } catch (SQLException e) {
             e.printStackTrace();
         }

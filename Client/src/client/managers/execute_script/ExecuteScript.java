@@ -5,7 +5,6 @@ package client.managers.execute_script;
 
 import client.managers.AskInputManager;
 import client.managers.CommandHandler;
-import client.managers.execute_script.ExecuteScriptHandler;
 import resources.exceptions.ValidateException;
 import client.validators.ValidatorManager;
 import resources.exceptions.InfiniteLoopException;

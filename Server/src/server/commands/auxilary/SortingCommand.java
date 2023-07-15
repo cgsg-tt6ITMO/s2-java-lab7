@@ -1,11 +1,12 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.auxilary;
 
 import resources.utility.Arguments;
 import resources.utility.Response;
 import resources.task.Route;
+import server.commands.auxilary.Command;
 
 import java.util.Comparator;
 import java.util.Stack;

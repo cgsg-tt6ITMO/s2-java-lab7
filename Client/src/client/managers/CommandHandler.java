@@ -7,7 +7,6 @@ import client.validators.ValidatorManager;
 import resources.exceptions.ExecuteScriptException;
 import resources.exceptions.NoSuchCommandException;
 import resources.utility.Request;
-import resources.utility.Serializer;
 
 import java.util.Scanner;
 
@@ -44,12 +43,12 @@ public class CommandHandler {
                 r = new Request(command, "", author);
             }
             case "add", "remove_lower", "add_if_max" ->
-                    r = new Request(command, Serializer.objSer(im.inpRoute()), author);
-            case "remove_by_id" -> r = new Request(command, Serializer.longSer(im.inpLong("id", v.idValidator())), author);
+                    r = new Request(command, SerializationManager.objSer(im.inpRoute()), author);
+            case "remove_by_id" -> r = new Request(command, ""+im.inpLong("id", v.idValidator()), author);
             case "update", "insert_at" ->
-                    r = new Request(command, Serializer.longRouteSer(im.inpLong("id", v.idValidator()), im.inpRoute()), author);
+                    r = new Request(command, SerializationManager.longRouteSer(im.inpLong("id", v.idValidator()), im.inpRoute()), author);
             case "filter_greater_than_distance" ->
-                    r = new Request(command, Serializer.doubleSer(im.inpDouble("distance", v.distanceValidator())), author);
+                    r = new Request(command, ""+im.inpDouble("distance", v.distanceValidator()), author);
             case "execute_script" -> {
                 throw new ExecuteScriptException();
             }

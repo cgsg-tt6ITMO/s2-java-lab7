@@ -1,10 +1,11 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.auxilary;
 
 import resources.utility.Arguments;
 import resources.utility.Response;
+import server.commands.auxilary.Command;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ public class LoginCommand implements Command {
     public LoginCommand(Connection connection) {
         this.conn = connection;
     }
+
     @Override
     public Response execute(Arguments args) {
         try {

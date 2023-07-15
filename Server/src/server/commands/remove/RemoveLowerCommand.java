@@ -1,12 +1,14 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.remove;
 
 import resources.utility.Arguments;
 import resources.utility.Response;
 import resources.task.Route;
-import resources.utility.Deserializer;
+import server.managers.SerializationManager;
+import server.commands.auxilary.AbstractCommand;
+import server.commands.auxilary.Command;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -36,7 +38,7 @@ public class RemoveLowerCommand extends AbstractCommand implements Command {
      */
     @Override
     public Response execute(Arguments args) {
-        Route route = Deserializer.readRoute(args.getData());
+        Route route = SerializationManager.readRoute(args.getData());
         try {
             String user = args.getAuthor();
             Statement statement1 = conn.createStatement();

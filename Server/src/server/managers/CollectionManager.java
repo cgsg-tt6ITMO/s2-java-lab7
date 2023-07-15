@@ -6,7 +6,10 @@ package server.managers;
 import resources.task.Route;
 import resources.utility.Request;
 import resources.utility.Response;
-import server.commands.*;
+import server.commands.add.*;
+import server.commands.auxilary.*;
+import server.commands.not_changing.*;
+import server.commands.remove.*;
 
 import java.sql.Connection;
 import java.time.ZonedDateTime;

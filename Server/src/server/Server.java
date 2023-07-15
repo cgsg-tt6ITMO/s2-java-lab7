@@ -3,10 +3,9 @@
  */
 package server;
 
-import resources.utility.Deserializer;
+import server.managers.SerializationManager;
 import resources.utility.Request;
 import resources.utility.Response;
-import resources.utility.Serializer;
 import server.managers.CollectionManager;
 
 import java.net.*;
@@ -16,7 +15,6 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import static java.nio.channels.SelectionKey.OP_ACCEPT;
@@ -25,20 +23,13 @@ import static java.nio.channels.SelectionKey.OP_ACCEPT;
  * Server. Handles command logic.
  */
 public class Server {
-    private static byte[] arr = new byte[8192];
-    private static final int MAX_NUM_COMMANDS = 100;
-
-    /**
-     * Default constructor.
-     */
-    public Server() {}
-
     /**
      * Gets requests, handles them and sends responses.
      * Does all the manipulation with the collection.
      * @param args cmd arguments.
      */
     public static void main(String[] args) {
+        byte[] arr = new byte[8192];
         InetAddress host;
         int port = 8080;
         SocketAddress addr;
@@ -53,7 +44,7 @@ public class Server {
             serv.bind(addr);
             sel = Selector.open();
             serv.configureBlocking(false);
-            boolean loop = true;
+            boolean serverWorks = true;
 
             do {
                 serv.register(sel, OP_ACCEPT);
@@ -72,21 +63,9 @@ public class Server {
                         System.out.println("Readable");
                         buf = ByteBuffer.wrap(arr);
                         sock.read(buf);
-                        if (arr[0] == '[') {
-                            Request[] reqs = Deserializer.readArr(new String(arr));
-                            ArrayList<Response> response = new ArrayList<>();
-                            for (Request r : reqs) {
-                                if (r != null) {
-                                    Response res = commandManager.runCommand(r);
-                                    response.add(res);
-                                }
-                            }
-                            arr = Serializer.objSer(response).getBytes(StandardCharsets.UTF_8);
-                        } else {
-                            Request r = Deserializer.readReq(new String(arr));
-                            Response response = commandManager.runCommand(r);
-                            arr = Serializer.objSer(response).getBytes(StandardCharsets.UTF_8);
-                        }
+                        Request r = SerializationManager.readReq(new String(arr));
+                        Response response = commandManager.runCommand(r);
+                        arr = SerializationManager.objSer(response).getBytes(StandardCharsets.UTF_8);
                         buf = ByteBuffer.wrap(arr);
                         sock.write(buf);
                         arr = new byte[8192];
@@ -95,7 +74,7 @@ public class Server {
                     }
                     iter.remove();
                 }
-            } while (loop);
+            } while (serverWorks);
 
         } catch (UnknownHostException e) {
             System.err.println(e.getMessage());

@@ -1,11 +1,13 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.not_changing;
 
 import resources.task.Route;
 import resources.utility.Arguments;
 import resources.utility.Response;
+import server.commands.auxilary.AbstractCommand;
+import server.commands.auxilary.Command;
 
 import java.sql.*;
 import java.util.Stack;
@@ -13,7 +15,7 @@ import java.util.Stack;
 /**
  * Handle 'show' method.
  */
-public class ShowCommand extends AbstractCommand implements Command{
+public class ShowCommand extends AbstractCommand implements Command {
     private final Stack<Route> stack;
     private final Connection conn;
 

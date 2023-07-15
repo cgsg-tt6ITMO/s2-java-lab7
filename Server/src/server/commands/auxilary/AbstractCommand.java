@@ -1,7 +1,7 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.auxilary;
 
 /**
  * Every command's parent class.

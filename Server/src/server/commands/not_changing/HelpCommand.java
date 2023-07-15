@@ -1,10 +1,12 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.not_changing;
 
 import resources.utility.Arguments;
 import resources.utility.Response;
+import server.commands.auxilary.AbstractCommand;
+import server.commands.auxilary.Command;
 
 import java.util.HashMap;
 

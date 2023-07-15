@@ -1,12 +1,14 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.not_changing;
 
 import resources.task.Route;
 import resources.utility.Arguments;
 import resources.utility.Response;
-import resources.utility.Deserializer;
+import server.managers.SerializationManager;
+import server.commands.auxilary.AbstractCommand;
+import server.commands.auxilary.Command;
 
 import java.util.Stack;
 
@@ -31,7 +33,7 @@ public class FilterGreaterDistCommand extends AbstractCommand implements Command
     @Override
     public Response execute(Arguments args) {
         StringBuilder sb = new StringBuilder("ROUTES WITH DIST GREATER THAN INPUTTED:\n");
-        Double distance = Deserializer.readDouble(args.getData());
+        Double distance = SerializationManager.readDouble(args.getData());
         for (var el : stack) {
             if (el.getDistance() > distance) {
                 sb.append("ID: \t\t").append(el.getId()).append("\nName: \t\t").append(el.getName())

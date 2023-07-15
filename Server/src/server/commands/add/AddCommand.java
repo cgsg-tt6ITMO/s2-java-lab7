@@ -1,13 +1,15 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.add;
 
 import resources.task.Location;
 import resources.task.Route;
 import resources.utility.Arguments;
 import resources.utility.Response;
-import resources.utility.Deserializer;
+import server.managers.SerializationManager;
+import server.commands.auxilary.AbstractCommand;
+import server.commands.auxilary.Command;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -37,7 +39,7 @@ public class AddCommand extends AbstractCommand implements Command {
      */
     @Override
     public Response execute(Arguments args) {
-        Route el = Deserializer.readRoute(args.getData());
+        Route el = SerializationManager.readRoute(args.getData());
         try {
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO s368924_LabaN7 (routeName,  coordinatesX, coordinatesY, creationTime, " +

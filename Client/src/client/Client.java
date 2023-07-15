@@ -5,13 +5,12 @@ package client;
 
 import client.managers.AskInputManager;
 import client.managers.CommandHandler;
-import client.managers.DisplayResponse;
 import client.managers.execute_script.ExecuteScript;
 import resources.exceptions.ExecuteScriptException;
 import resources.exceptions.NoSuchCommandException;
 import resources.utility.Request;
 import resources.utility.Response;
-import resources.utility.Serializer;
+import client.managers.SerializationManager;
 
 import java.io.IOException;
 import java.net.*;
@@ -28,6 +27,16 @@ import java.util.function.Function;
 public class Client {
     private static final Scanner sc = new Scanner(System.in);
 
+    private static Response display(byte [] arr) throws ConnectException {
+        String answ = new String(arr).trim();
+        Response response = SerializationManager.readResp(answ);
+        System.out.println(response.getMessage());
+        if (response.getMessage().equals("EXIT...\n")) {
+            throw new ConnectException("exit");
+        }
+        return response;
+    }
+
     /**
      * Auxiliary method that sends request and displays response for one command.
      * @param request request, based on the command.
@@ -35,7 +44,7 @@ public class Client {
      * @throws IOException socket problems, connection lost etc.
      */
     private static Response oneCommand(Request request, SocketChannel sock) throws IOException {
-        Function<Object, byte[]> objToByte = (obj) -> (Serializer.objSer(obj).getBytes(StandardCharsets.UTF_8));
+        Function<Object, byte[]> objToByte = (obj) -> (SerializationManager.objSer(obj).getBytes(StandardCharsets.UTF_8));
 
         try {
             byte[] arr = objToByte.apply(request);
@@ -44,7 +53,7 @@ public class Client {
             buf.clear();
             buf = ByteBuffer.allocate(8192);
             sock.read(buf);
-            return DisplayResponse.display(buf.array());
+            return display(buf.array());
         } catch (UnknownHostException e) {
             System.err.println(e.getMessage());
         } catch (ConnectException e) {
@@ -65,7 +74,6 @@ public class Client {
      */
     public static void main(String[] args) {
         InetAddress host;
-        // need to change the number after client disconnection
         int port = 8080;
         SocketAddress addr;
         CommandHandler commandHandler;

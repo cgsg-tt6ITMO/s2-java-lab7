@@ -1,13 +1,15 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.add;
 
 import resources.task.Location;
 import resources.utility.Arguments;
 import resources.utility.Response;
 import resources.task.Route;
-import resources.utility.Deserializer;
+import server.managers.SerializationManager;
+import server.commands.auxilary.AbstractCommand;
+import server.commands.auxilary.Command;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -38,16 +40,15 @@ public class AddIfMaxCommand extends AbstractCommand implements Command {
      */
     @Override
     public Response execute(Arguments args) {
-        Route route = Deserializer.readRoute(args.getData());
+        Route route = SerializationManager.readRoute(args.getData());
         try {
             Statement statement1 = conn.createStatement();
-            // сначала можно было бы проверить, макс или не макс
+            // compate route.dist with the max dist
             statement1.execute("SELECT MAX(distance) FROM s368924_LabaN7");
             ResultSet rs = statement1.getResultSet();
             double maxDist = -1;
             if (rs.next()) {
                 maxDist =  rs.getDouble(1);
-                //System.out.println("max dist " + maxDist);
             }
             if (route.getDistance() > maxDist) {
                 Statement statement2 = conn.createStatement();

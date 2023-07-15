@@ -1,27 +1,24 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package resources.utility;
+package server.managers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import resources.task.Route;
+import resources.utility.Request;
 
 import java.io.IOException;
 
 /**
- * Makes strings out of objects in order to send data through Streams of bytes.
+ * Returns object from json serialized lines.
  */
-public class Serializer {
+public class SerializationManager {
     private static final ObjectMapper mapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
-    /**
-     * Default constructor.
-     */
-    public Serializer() {}
 
     /**
      * Returns string out of any object.
@@ -42,15 +39,28 @@ public class Serializer {
         return res;
     }
 
-    public static String longSer(Long l) {
-        return String.valueOf(l);
+    public static Request readReq(String json) {
+        try {
+            return mapper.readValue(json, Request.class);
+        } catch (JsonProcessingException e) {
+            return new Request("error", "error", "error");
+        }
     }
 
-    public static String longRouteSer(long n, Route r) {
-        return longSer(n) + "\n" + objSer(r);
+    public static Route readRoute(String json) {
+        try {
+            return mapper.readValue(json, Route.class);
+        } catch (Exception ex) {
+            System.err.println("Route input from json:" + ex.getMessage());
+            return null;
+        }
     }
 
-    public static String doubleSer(Double d) {
-        return String.valueOf(d);
+    public static Long readLong(String ser) {
+        return Long.parseLong(ser);
+    }
+
+    public static Double readDouble(String d) {
+        return Double.parseDouble(d);
     }
 }

@@ -1,17 +1,19 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.not_changing;
 
 import resources.utility.Arguments;
 import resources.utility.Response;
+import server.commands.auxilary.AbstractCommand;
+import server.commands.auxilary.Command;
 
 import java.time.ZonedDateTime;
 
 /**
  * Handle 'info' method.
  */
-public class InfoCommand extends AbstractCommand implements Command{
+public class InfoCommand extends AbstractCommand implements Command {
     private final ZonedDateTime date;
     private final String type;
     private final int size;

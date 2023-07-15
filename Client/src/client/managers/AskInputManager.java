@@ -14,8 +14,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * Inputs data, gently reminding the client about what variable they are supposed to input,
- *   and it's type and providing re-input in case of wrong input.
+ * Inputs data, reminding the client what variable they are supposed to input and its type
+ *     and providing re-input in case of wrong input.
  */
 public class AskInputManager {
     private Scanner sc;
@@ -140,13 +140,5 @@ public class AskInputManager {
         } catch (ValidateException validateException) {
             return inpString("Input " + variableName + " again", validator);
         }
-    }
-
-    /**
-     * @return description for the AskInputManager.
-     */
-    @Override
-    public String toString() {
-        return "Input manager which prints tips for inputting data";
     }
 }

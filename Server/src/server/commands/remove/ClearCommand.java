@@ -1,11 +1,13 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.remove;
 
 import resources.task.Route;
 import resources.utility.Arguments;
 import resources.utility.Response;
+import server.commands.auxilary.AbstractCommand;
+import server.commands.auxilary.Command;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,7 +18,7 @@ import java.util.Stack;
 /**
  * Handle 'clear' method.
  */
-public class ClearCommand extends AbstractCommand implements Command{
+public class ClearCommand extends AbstractCommand implements Command {
     private final Stack<Route> stack;
     private final Connection conn;
 

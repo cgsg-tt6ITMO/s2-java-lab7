@@ -1,12 +1,14 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.remove;
 
 import resources.task.Route;
 import resources.utility.Arguments;
 import resources.utility.Response;
-import resources.utility.Deserializer;
+import server.managers.SerializationManager;
+import server.commands.auxilary.AbstractCommand;
+import server.commands.auxilary.Command;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -37,7 +39,7 @@ public class RemoveByIdCommand extends AbstractCommand implements Command {
     @Override
     public Response execute(Arguments args) {
         try {
-            Long id = Deserializer.readLong(args.getData());
+            Long id = SerializationManager.readLong(args.getData());
             Statement statement = conn.createStatement();
             statement.execute("SELECT COUNT(id) FROM s368924_LabaN7 WHERE id = " + id + "AND author = '" + args.getAuthor() + "'");
             ResultSet rs = statement.getResultSet();

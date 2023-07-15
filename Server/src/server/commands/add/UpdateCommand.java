@@ -1,14 +1,16 @@
 /**
  * @author Troitskaya Tamara (cgsg-tt6)
  */
-package server.commands;
+package server.commands.add;
 
 import resources.task.Route;
 import resources.utility.Arguments;
 import resources.utility.Response;
 import resources.task.Coordinates;
 import resources.task.Location;
-import resources.utility.Deserializer;
+import server.managers.SerializationManager;
+import server.commands.auxilary.AbstractCommand;
+import server.commands.auxilary.Command;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,8 +18,6 @@ import java.sql.Statement;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.function.Function;
-
-import static java.lang.Math.sqrt;
 
 /**
  * Handle 'update' method.
@@ -51,7 +51,7 @@ public class UpdateCommand extends AbstractCommand implements Command {
             for (int i = idStr.length(); i < args.getData().length(); i++) {
                 json.append(args.getData().charAt(i));
             }
-            Route route = Deserializer.readRoute(json.toString());
+            Route route = SerializationManager.readRoute(json.toString());
 
             String Name = route.getName();
             Coordinates coords = route.getCoordinates();
@@ -87,9 +87,7 @@ public class UpdateCommand extends AbstractCommand implements Command {
                         r.setCoordinates(coords);
                         r.setFrom(f);
                         r.setTo(t);
-                        Double dist = sqrt((f.getX() - t.getX()) * (f.getX() - t.getX()) + (f.getY() - t.getY()) * (f.getY() - t.getY())
-                                + (f.getZ() - t.getZ()) * (f.getZ() - t.getZ()));
-                        r.setDistance(dist);
+                        r.setDistance();
                         break;
                     }
                 }

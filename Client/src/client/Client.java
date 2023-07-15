@@ -6,6 +6,8 @@ package client;
 import client.managers.AskInputManager;
 import client.managers.CommandHandler;
 import client.managers.DisplayResponse;
+import client.managers.execute_script.ExecuteScript;
+import resources.exceptions.ExecuteScriptException;
 import resources.exceptions.NoSuchCommandException;
 import resources.utility.Request;
 import resources.utility.Response;
@@ -16,6 +18,7 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Function;
 
@@ -91,6 +94,12 @@ public class Client {
             while (sc.hasNext()) {
                 try {
                     oneCommand(commandHandler.run(), sock);
+                } catch (ExecuteScriptException e) {
+                    ExecuteScript executeScript = new ExecuteScript(new AskInputManager(sc), author);
+                    ArrayList<Request> executeScriptRequests = executeScript.readRequestArray();
+                    for (Request el : executeScriptRequests) {
+                        oneCommand(el, sock);
+                    }
                 } catch (NoSuchCommandException e) {
                     System.err.println(e.getMessage() + " (re-input)");
                 }

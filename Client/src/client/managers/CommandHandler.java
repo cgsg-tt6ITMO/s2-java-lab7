@@ -4,6 +4,7 @@
 package client.managers;
 
 import client.validators.ValidatorManager;
+import resources.exceptions.ExecuteScriptException;
 import resources.exceptions.NoSuchCommandException;
 import resources.utility.Request;
 import resources.utility.Serializer;
@@ -50,9 +51,7 @@ public class CommandHandler {
             case "filter_greater_than_distance" ->
                     r = new Request(command, Serializer.doubleSer(im.inpDouble("distance", v.distanceValidator())), author);
             case "execute_script" -> {
-                System.out.println("Need to remake this. Not available.");
-                System.exit(6);
-                return null;
+                throw new ExecuteScriptException();
             }
             default -> throw new NoSuchCommandException(command + " doesn't exist.");
         }

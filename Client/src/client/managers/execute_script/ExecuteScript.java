@@ -5,14 +5,15 @@ package client.managers.execute_script;
 
 import client.managers.AskInputManager;
 import client.managers.CommandHandler;
+import resources.exceptions.ExecuteScriptException;
 import resources.exceptions.ValidateException;
 import client.validators.ValidatorManager;
 import resources.exceptions.InfiniteLoopException;
 import resources.utility.Request;
-import resources.utility.Serializer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -29,14 +30,14 @@ public class ExecuteScript {
         this.author = author;
     }
 
-    public String makeReq() {
-        int numOfCommands = 100;
-        Request[] reqs = new Request[numOfCommands];
+    public ArrayList<Request> readRequestArray() {
+        ArrayList<Request> reqs = new ArrayList<>();
         ValidatorManager v = new ValidatorManager();
 
-        boolean loop = true, wasErr = false;
+        boolean loop, wasErr = false;
         do {
             try {
+                // input path
                 if (wasErr) {
                     System.err.println("execute script: input filename again:");
                 }
@@ -52,16 +53,24 @@ public class ExecuteScript {
                         throw new InfiniteLoopException("execute_script");
                     }
                 }
-
+                // make Requests
                 File file = new File(path);
                 Scanner fileScanner = new Scanner(file);
-                for (int i = 0; i < numOfCommands; i++) {
-                    if (fileScanner.hasNext()) {
-                        Request st = new CommandHandler(fileScanner, author).run();
-                        reqs[i] = st;
+                CommandHandler commandHandler = new CommandHandler(fileScanner, author);
+                while (fileScanner.hasNext()) {
+                    try {
+                        Request st = commandHandler.run();
+                        reqs.add(st);
+                    }
+                    // in execute_script other execute_script met
+                    catch (ExecuteScriptException e) {
+                        ExecuteScript executeScript = new ExecuteScript(inputManager, author);
+                        ArrayList<Request> executeScriptRequests = executeScript.readRequestArray();
+                        for (var el : executeScriptRequests) {
+                            reqs.add(el);
+                        }
                     }
                 }
-
                 loop = false;
             } catch (ValidateException | FileNotFoundException e) {
                 loop = true;
@@ -72,7 +81,6 @@ public class ExecuteScript {
                 loop = false;
             }
         } while (loop);
-
-        return Serializer.objSer(reqs);
+        return reqs;
     }
 }

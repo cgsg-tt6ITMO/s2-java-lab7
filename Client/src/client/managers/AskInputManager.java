@@ -9,6 +9,7 @@ import resources.task.Coordinates;
 import resources.task.Location;
 import resources.task.Route;
 import resources.utility.IdHandler;
+import resources.utility.Request;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -37,6 +38,24 @@ public class AskInputManager {
      */
     public void setScanner(Scanner scanner) {
         this.sc = scanner;
+    }
+
+    public static Request loginOrRegister(Scanner sc) {
+        System.out.println("Input login / register");
+        String author, password;
+        try {
+            String command = sc.nextLine();
+            if (!command.equals("login") && !command.equals("register")) {
+                throw new ValidateException("You have to input either 'login' or 'register'");
+            }
+            System.out.println("Username:");
+            author = sc.nextLine();
+            System.out.println("Password:");
+            password = sc.nextLine();
+            return new Request(command, password, author);
+        } catch (ValidateException ve) {
+            return loginOrRegister(sc);
+        }
     }
 
     /**

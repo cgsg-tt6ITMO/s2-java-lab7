@@ -17,14 +17,18 @@ public class DisplayResponse {
         }
     }
 
-    public static void display(byte [] arr) throws ConnectException {
+    public static Response display(byte [] arr) throws ConnectException {
         String answ = new String(arr).trim();
         if (answ.charAt(0) == '[') {
+            throw new RuntimeException("Display response: display: я получил массив респонзов и не умею их отображать");
+            /*
             for (Response r : Deserializer.responses(answ)) {
                 displaySingleResponse(r);
             }
+             */
         } else {
             displaySingleResponse(Deserializer.readResp(answ));
+            return Deserializer.readResp(answ);
         }
     }
 }

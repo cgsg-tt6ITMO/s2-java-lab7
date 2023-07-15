@@ -42,6 +42,10 @@ public class CollectionManager {
         GroupByFromCommand groupByFrom = new GroupByFromCommand(stack);
         UpdateCommand update = new UpdateCommand(stack, dbConn);
 
+        commands.put("login", new LoginCommand(dbConn));
+        commands.put("register", new RegisterCommand(dbConn));
+        commands.put("sort", new SortingCommand(stack));
+
         commands.put(help.getName(), help);
         commands.put(info.getName(), info);
         commands.put(show.getName(), show);
@@ -51,7 +55,6 @@ public class CollectionManager {
         commands.put(clear.getName(), clear);
         commands.put(removeLower.getName(), removeLower);
         commands.put(addIfMax.getName(), addIfMax);
-        commands.put("sort", new SortingCommand(stack));
         commands.put(descDist.getName(), descDist);
         commands.put(filterGreaterDist.getName(), filterGreaterDist);
         commands.put(groupByFrom.getName(), groupByFrom);

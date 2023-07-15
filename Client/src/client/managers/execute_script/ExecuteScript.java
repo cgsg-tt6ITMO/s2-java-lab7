@@ -8,7 +8,6 @@ import client.managers.CommandHandler;
 import resources.exceptions.ValidateException;
 import client.validators.ValidatorManager;
 import resources.exceptions.InfiniteLoopException;
-import resources.utility.Deserializer;
 import resources.utility.Request;
 import resources.utility.Serializer;
 
@@ -59,8 +58,7 @@ public class ExecuteScript {
                 for (int i = 0; i < numOfCommands; i++) {
                     if (fileScanner.hasNext()) {
                         stackSize += 1;
-                        Request st = Deserializer.readReq(new String(
-                                new CommandHandler(fileScanner, stackSize, author).run()));
+                        Request st = new CommandHandler(fileScanner, stackSize, author).run();
                         reqs[i] = st;
                     }
                 }

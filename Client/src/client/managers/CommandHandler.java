@@ -36,16 +36,11 @@ public class CommandHandler {
      * Method that handles input logic.
      * It handles the number of arguments command needs.
      */
-    public byte[] run() {
+    public Request run() {
         ValidatorManager v = new ValidatorManager();
-        Request r = null;
-        byte[] arr;
+        Request r;
         String command = sc.nextLine();
         switch (command) {
-            // но не должно быть так, что посреди команды мы ввели start...
-            case "start"  -> {
-                r = new Request("start", "", author);
-            }
             case "group_counting_by_from",
                     "help", "info", "show",
                     "print_field_descending_distance",
@@ -60,19 +55,12 @@ public class CommandHandler {
             case "filter_greater_than_distance" ->
                     r = new Request(command, Serializer.doubleSer(im.inpDouble("distance", v.distanceValidator())), author);
             case "execute_script" -> {
-                ExecuteScript executeScript = new ExecuteScript(im, author);
-                String requests = executeScript.makeReq(Math.toIntExact(idHandler.getLastId()));
-                return requests.getBytes();
+                System.out.println("Need to remake this. Not available.");
+                System.exit(6);
+                return null;
             }
             default -> throw new NoSuchCommandException(command + " doesn't exist.");
         }
-
-        if (r != null) {
-            arr = Serializer.objSer(r).getBytes(StandardCharsets.UTF_8);
-        } else {
-            arr = new byte[8192];
-            System.err.println("arr is null");
-        }
-        return arr;
+        return r;
     }
 }

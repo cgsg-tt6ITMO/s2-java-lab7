@@ -58,7 +58,7 @@ public class ShowCommand extends AbstractCommand implements Command{
                         append(rs.getLong("locToZ")).append("\t\t").
                         append(rs.getString("locToName")).append("\t\t").
                         append(rs.getDate("creationTime")).append("\t\t").
-                        append(rs.getLong("distance")).append("\t\t").
+                        append(rs.getDouble("distance")).append("\t\t").
                         append(rs.getString("author"));
                 sb.append("\n\n");
             }

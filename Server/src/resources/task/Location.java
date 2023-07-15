@@ -36,10 +36,7 @@ public class Location {
      * @param nm - name of the location. (not null)
      */
     public Location(float X, Float Y, long Z, String nm) {
-        setX(X);
-        setY(Y);
-        setZ(Z);
-        setName(nm);
+        this.setX(X).setY(Y).setZ(Z).setName(nm);
     }
 
     public Location setX(float x) {
@@ -51,9 +48,6 @@ public class Location {
         return x;
     }
 
-    /**
-     * Safe setting Y.
-     */
     public Location setY(Float y) {
         this.y = y;
         return this;
@@ -72,9 +66,6 @@ public class Location {
         return z;
     }
 
-    /**
-     * In case of incorrect input offers you to re-client.input.
-     */
     public Location setName(String name) {
         this.name = name;
         return this;

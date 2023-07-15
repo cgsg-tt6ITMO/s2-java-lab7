@@ -3,14 +3,11 @@
  */
 package client.managers;
 
-import client.managers.execute_script.ExecuteScript;
 import client.validators.ValidatorManager;
 import resources.exceptions.NoSuchCommandException;
-import resources.utility.IdHandler;
 import resources.utility.Request;
 import resources.utility.Serializer;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
@@ -19,15 +16,13 @@ import java.util.Scanner;
 public class CommandHandler {
     private final AskInputManager im;
     private final Scanner sc;
-    private final IdHandler idHandler;
     private final String author;
 
     /**
      * Default constructor.
      */
-    public CommandHandler(Scanner sc, int size, String author) {
-        this.idHandler = new IdHandler((long) size);
-        this.im = new AskInputManager(sc, idHandler);
+    public CommandHandler(Scanner sc, String author) {
+        this.im = new AskInputManager(sc);
         this.sc = sc;
         this.author = author;
     }

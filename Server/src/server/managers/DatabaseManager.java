@@ -110,7 +110,7 @@ public class DatabaseManager {
                         rs.getFloat("locToY"),
                         rs.getLong("locToZ"),
                         rs.getString("locToName"));
-                Long dist = rs.getLong("distance");
+                Double dist = rs.getDouble("distance");
                 Route r = new Route(id, name, coords, from, to);
                 routes.add(r);
             }

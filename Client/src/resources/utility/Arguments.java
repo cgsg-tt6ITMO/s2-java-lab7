@@ -1,12 +1,18 @@
+/**
+ * @author Troitskaya Tamara (cgsg-tt6)
+ */
 package resources.utility;
 
+/**
+ * Class that stores arguments for Request class.
+ */
 public class Arguments {
-    private String data;
-    private String author;
+    private final String data;
+    private final String author;
 
     public Arguments() {
         this.data = "";
-        this.author = "unlnown";
+        this.author = "unknown";
     }
     public Arguments(String data, String author) {
         this.data = data;

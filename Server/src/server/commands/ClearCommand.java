@@ -35,9 +35,6 @@ public class ClearCommand extends AbstractCommand implements Command{
      */
     @Override
     public Response execute(Arguments args) {
-
-        //return new Response("CLEAR:\nNow the collection is empty.\n");
-
         try {
             String user = args.getAuthor();
             Statement statement1 = conn.createStatement();

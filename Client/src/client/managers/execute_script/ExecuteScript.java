@@ -29,7 +29,7 @@ public class ExecuteScript {
         this.author = author;
     }
 
-    public String makeReq(int stackSize) {
+    public String makeReq() {
         int numOfCommands = 100;
         Request[] reqs = new Request[numOfCommands];
         ValidatorManager v = new ValidatorManager();
@@ -57,8 +57,7 @@ public class ExecuteScript {
                 Scanner fileScanner = new Scanner(file);
                 for (int i = 0; i < numOfCommands; i++) {
                     if (fileScanner.hasNext()) {
-                        stackSize += 1;
-                        Request st = new CommandHandler(fileScanner, stackSize, author).run();
+                        Request st = new CommandHandler(fileScanner, author).run();
                         reqs[i] = st;
                     }
                 }

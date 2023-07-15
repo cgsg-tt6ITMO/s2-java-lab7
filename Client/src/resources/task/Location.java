@@ -41,10 +41,7 @@ public class Location {
      * @param nm - name of the location. (not null)
      */
     public Location(float X, Float Y, long Z, String nm) throws ValidateException {
-        setX(X);
-        setY(Y);
-        setZ(Z);
-        setName(nm);
+        this.setX(X).setY(Y).setZ(Z).setName(nm);
     }
 
     public Location setX(float x) {
@@ -56,9 +53,6 @@ public class Location {
         return x;
     }
 
-    /**
-     * Safe setting Y.
-     */
     public Location setY(Float y) throws ValidateException {
         Validator<Float> notNullVal = new Validator<>(Objects::nonNull, "Location: Y is null");
         this.y = notNullVal.validate(y);
@@ -78,9 +72,6 @@ public class Location {
         return z;
     }
 
-    /**
-     * In case of incorrect input offers you to re-client.input.
-     */
     public Location setName(String name) throws ValidateException {
         Validator<String> strVal = new Validator<>((str) -> (str != null && !str.equals("")), "String is null or empty");
         this.name = strVal.validate(name);

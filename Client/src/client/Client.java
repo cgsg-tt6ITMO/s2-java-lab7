@@ -75,7 +75,6 @@ public class Client {
             String author = "";
             boolean isLogin = false;
             /* Register or login until you are not logged in */
-            // из oneCommand может вылететь исключение, если сервер упал или сокет дисконнектнулся
             do {
                 Request logOrReg = AskInputManager.loginOrRegister(sc);
                 Response response = oneCommand(logOrReg, sock);
@@ -87,19 +86,21 @@ public class Client {
                 }
             } while (!isLogin);
 
-            commandHandler = new CommandHandler(sc, 0, author);
+            commandHandler = new CommandHandler(sc, author);
             System.out.println("Type command name...");
             while (sc.hasNext()) {
-                oneCommand(commandHandler.run(), sock);
+                try {
+                    oneCommand(commandHandler.run(), sock);
+                } catch (NoSuchCommandException e) {
+                    System.err.println(e.getMessage() + " (re-input)");
+                }
             }
-        } catch (UnknownHostException | ConnectException e) {
+        } catch (UnknownHostException | SocketException e) {
             System.err.println(e.getMessage());
-        } catch (NoSuchCommandException e) {
-            System.err.println(e.getMessage() + " (re-input)");
-        } catch (SocketException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (Throwable t) {
+            System.err.println("ERROR");
         }
     }
 }

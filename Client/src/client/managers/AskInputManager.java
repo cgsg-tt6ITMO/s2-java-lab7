@@ -8,7 +8,6 @@ import resources.exceptions.ValidateException;
 import resources.task.Coordinates;
 import resources.task.Location;
 import resources.task.Route;
-import resources.utility.IdHandler;
 import resources.utility.Request;
 
 import java.util.InputMismatchException;
@@ -20,16 +19,14 @@ import java.util.Scanner;
  */
 public class AskInputManager {
     private Scanner sc;
-    private final IdHandler idHandler;
     ValidatorManager v = new ValidatorManager();
 
     /**
      * Input manager initialization.
      * @param scanner - scanner from which to input (console, file, etc).
      */
-    public AskInputManager(Scanner scanner, IdHandler idHandler) {
+    public AskInputManager(Scanner scanner) {
         setScanner(scanner);
-        this.idHandler = idHandler;
     }
 
     /**
@@ -64,10 +61,9 @@ public class AskInputManager {
      */
     public Route inpRoute() {
         System.out.println("Input route data");
-        idHandler.setLastId(idHandler.getLastId() + 1);
         try {
             return new Route()
-                    .setId(idHandler.getLastId())
+                    // неважно, какой id, потому что база сама генерит
                     .setName(inpString("Name", v.stringValidator()))
                     .setCoordinates(inpCoordinates("Coordinates (Double X, Float Y)"))
                     .setFrom(inpLocation("Location from (Float X, Float Y, Long Z, String name)"))

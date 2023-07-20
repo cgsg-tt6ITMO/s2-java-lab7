@@ -62,7 +62,7 @@ public class Client {
         } catch (NoSuchCommandException e) {
             System.err.println(e.getMessage() + " (try again)");
         } catch (SocketException e) {
-            e.printStackTrace();
+            return new Response("Server fall...");
         }
         return new Response("Error...");
     }

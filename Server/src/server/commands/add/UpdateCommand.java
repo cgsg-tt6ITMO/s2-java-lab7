@@ -19,6 +19,8 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.util.function.Function;
 
+import static resources.utility.Status.*;
+
 /**
  * Handle 'update' method.
  */
@@ -91,12 +93,12 @@ public class UpdateCommand extends AbstractCommand implements Command {
                         break;
                     }
                 }
-                return new Response("UPDATE:\nElement was successfully updated.\n\n");
+                return new Response(SUCCESS, "UPDATE:\nElement was successfully updated.\n\n");
             }
-            return new Response("UPDATE:\nElement with this id doesn't exist or you have no rights to modify it.");
+            return new Response(OK, "UPDATE:\nElement with this id doesn't exist or you have no rights to modify it.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Response("ERROR");
+        return new Response(ERROR,"");
     }
 }

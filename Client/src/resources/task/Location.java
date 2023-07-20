@@ -3,11 +3,6 @@
  */
 package resources.task;
 
-import resources.exceptions.ValidateException;
-import client.validators.Validator;
-
-import java.util.Objects;
-
 /**
  * Stores Location data.
  */
@@ -40,7 +35,7 @@ public class Location {
      * @param Z - applicate;
      * @param nm - name of the location. (not null)
      */
-    public Location(float X, Float Y, long Z, String nm) throws ValidateException {
+    public Location(float X, Float Y, long Z, String nm) {
         this.setX(X).setY(Y).setZ(Z).setName(nm);
     }
 
@@ -53,9 +48,8 @@ public class Location {
         return x;
     }
 
-    public Location setY(Float y) throws ValidateException {
-        Validator<Float> notNullVal = new Validator<>(Objects::nonNull, "Location: Y is null");
-        this.y = notNullVal.validate(y);
+    public Location setY(Float y) {
+        this.y = y;
         return this;
     }
 
@@ -72,9 +66,8 @@ public class Location {
         return z;
     }
 
-    public Location setName(String name) throws ValidateException {
-        Validator<String> strVal = new Validator<>((str) -> (str != null && !str.equals("")), "String is null or empty");
-        this.name = strVal.validate(name);
+    public Location setName(String name) {
+        this.name = name;
         return this;
     }
 

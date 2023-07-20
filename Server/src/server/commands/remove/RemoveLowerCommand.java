@@ -16,6 +16,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Stack;
 
+import static resources.utility.Status.*;
+
 /**
  * Handle 'remove_lower' method.
  */
@@ -60,12 +62,12 @@ public class RemoveLowerCommand extends AbstractCommand implements Command {
                         }
                     });
                 }
-                return new Response("REMOVE LOWER:\nSUCCESSFUL REMOVE\n\n");
+                return new Response(SUCCESS, "REMOVE LOWER:\nSUCCESSFUL REMOVE\n\n");
             }
-            return new Response("REMOVE LOWER:\nNo elements were less than inputted.\n\n");
+            return new Response(OK, "REMOVE LOWER:\nNo elements were less than inputted.\n\n");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Response("ERROR");
+        return new Response(ERROR, "");
     }
 }

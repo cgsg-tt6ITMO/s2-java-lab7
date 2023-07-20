@@ -52,6 +52,8 @@ public class CommandHandler {
             case "execute_script" -> {
                 throw new ExecuteScriptException();
             }
+            case "delete_user" ->
+                r = im.inpUsernamePassword();
             default -> throw new NoSuchCommandException(command + " doesn't exist.");
         }
         return r;

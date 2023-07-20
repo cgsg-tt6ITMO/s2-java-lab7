@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Stack;
 
+import static resources.utility.Status.OK;
+
 /**
  * Handle 'print_field_descending_distance' method.
  */
@@ -43,6 +45,6 @@ public class PrintDescDistCommand extends AbstractCommand implements Command {
             sb.append(distances.get(i)).append("\n");
         }
         sb.append('\n');
-        return new Response(new String(sb));
+        return new Response(OK, new String(sb));
     }
 }

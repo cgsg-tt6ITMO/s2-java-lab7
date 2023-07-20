@@ -3,11 +3,6 @@
  */
 package resources.task;
 
-import resources.exceptions.ValidateException;
-import client.validators.Validator;
-
-import java.util.Objects;
-
 /**
  * Coordinates class due to the task.
  */
@@ -20,13 +15,12 @@ public class Coordinates {
      */
     public Coordinates() {}
 
-    public Coordinates(Double X, float Y) throws ValidateException {
+    public Coordinates(Double X, float Y) {
         this.setX(X).setY(Y);
     }
 
-    public Coordinates setX(Double x) throws ValidateException {
-        Validator<Double> notNullVal = new Validator<>(Objects::nonNull, "Coordinates: X is null");
-        this.x = notNullVal.validate(x);
+    public Coordinates setX(Double x) {
+        this.x = x;
         return this;
     }
 

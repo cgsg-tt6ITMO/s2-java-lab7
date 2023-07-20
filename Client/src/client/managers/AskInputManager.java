@@ -38,6 +38,15 @@ public class AskInputManager {
         this.sc = scanner;
     }
 
+    public Request inpUsernamePassword() {
+        String author, password;
+        System.out.println("Username:");
+        author = sc.nextLine();
+        System.out.println("Password:");
+        password = sc.nextLine();
+        return new Request("delete_user", MD2Hashing.encryptPassword(password), author);
+    }
+
     public static Request loginOrRegister(Scanner sc) {
         System.out.println("Input login / register");
         String author, password;

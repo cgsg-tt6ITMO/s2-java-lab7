@@ -12,6 +12,8 @@ import server.commands.auxilary.Command;
 
 import java.util.Stack;
 
+import static resources.utility.Status.OK;
+
 /**
  * Handle 'filter_greater_than_distance' method.
  */
@@ -41,6 +43,6 @@ public class FilterGreaterDistCommand extends AbstractCommand implements Command
             }
         }
         sb.append('\n');
-        return new Response(new String(sb));
+        return new Response(OK, new String(sb));
     }
 }

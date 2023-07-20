@@ -12,6 +12,8 @@ import server.commands.auxilary.Command;
 import java.sql.*;
 import java.util.Stack;
 
+import static resources.utility.Status.*;
+
 /**
  * Handle 'show' method.
  */
@@ -42,7 +44,7 @@ public class ShowCommand extends AbstractCommand implements Command {
             StringBuilder sb = new StringBuilder("SHOW COLLECTION:\n");
             if (stack.size() == 0) {
                 sb.append("The collection is empty.");
-                return new Response(new String(sb));
+                return new Response(OK, new String(sb));
             }
             sb.append("id\t\troutename\t\tcoordinates\t\tlocation from\t\tlocation to\t\ttime\t\tdist\t\tauthor").
             append("\n\n");
@@ -64,11 +66,11 @@ public class ShowCommand extends AbstractCommand implements Command {
                         append(rs.getString("author"));
                 sb.append("\n\n");
             }
-            return new Response(new String(sb));
+            return new Response(SUCCESS, new String(sb));
         } catch (SQLException e) {
             System.err.println("Show command: sql exception");
             e.printStackTrace();
         }
-        return new Response("ERROR");
+        return new Response(ERROR,"");
     }
 }

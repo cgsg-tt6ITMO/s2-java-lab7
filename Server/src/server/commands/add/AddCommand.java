@@ -17,6 +17,8 @@ import java.sql.Statement;
 import java.util.Stack;
 import java.util.function.Function;
 
+import static resources.utility.Status.*;
+
 /**
  * Handle 'add' method.
  */
@@ -60,10 +62,10 @@ public class AddCommand extends AbstractCommand implements Command {
             statement.execute(sql);
             // раз не вылетела ошибка, всё успешно, и можно менять коллекцию в памяти
             stack.add(el);
-            return new Response("ADD ELEMENT:\nNEW ELEMENT ADDED SUCCESSFULLY\n");
+            return new Response(SUCCESS, "ADD ELEMENT:\nNEW ELEMENT ADDED SUCCESSFULLY\n");
         } catch (SQLException e) {
             System.err.println("Add command: sql exception");
         }
-        return new Response("ERROR");
+        return new Response(ERROR, "");
     }
 }

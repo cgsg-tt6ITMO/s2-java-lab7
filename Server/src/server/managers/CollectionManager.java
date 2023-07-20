@@ -10,11 +10,16 @@ import server.commands.add.*;
 import server.commands.auxilary.*;
 import server.commands.not_changing.*;
 import server.commands.remove.*;
+import server.commands.user.DeleteUserCommand;
+import server.commands.user.LoginCommand;
+import server.commands.user.RegisterCommand;
 
 import java.sql.Connection;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Stack;
+
+import static resources.utility.Status.ERROR;
 
 /**
  * Stores the collection and commands for it.
@@ -44,9 +49,11 @@ public class CollectionManager {
         FilterGreaterDistCommand filterGreaterDist = new FilterGreaterDistCommand(stack);
         GroupByFromCommand groupByFrom = new GroupByFromCommand(stack);
         UpdateCommand update = new UpdateCommand(stack, dbConn);
+        DeleteUserCommand deleteUser = new DeleteUserCommand(stack, dbConn);
 
         commands.put("login", new LoginCommand(dbConn));
         commands.put("register", new RegisterCommand(dbConn));
+        commands.put(deleteUser.getName(), deleteUser);
         commands.put("sort", new SortingCommand(stack));
 
         commands.put(help.getName(), help);
@@ -68,7 +75,7 @@ public class CollectionManager {
         if (commands.containsKey(r.getCommandName())) {
             return commands.get(r.getCommandName()).execute(r.getArgs());
         } else {
-            return new Response("ERROR: " + r.getCommandName() + " command doesn't exist");
+            return new Response(ERROR, "ERROR: " + r.getCommandName() + " command doesn't exist");
         }
     }
 }

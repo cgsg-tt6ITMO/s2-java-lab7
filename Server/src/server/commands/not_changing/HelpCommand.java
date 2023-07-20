@@ -10,6 +10,8 @@ import server.commands.auxilary.Command;
 
 import java.util.HashMap;
 
+import static resources.utility.Status.OK;
+
 /**
  * Handle 'help' method.
  */
@@ -37,6 +39,6 @@ public class HelpCommand extends AbstractCommand implements Command {
             }
         }
         sb.append("execute_script - runs input data from a script file.\n\n");
-        return new Response(new String(sb));
+        return new Response(OK, new String(sb));
     }
 }

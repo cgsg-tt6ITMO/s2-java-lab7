@@ -6,10 +6,11 @@ package server.commands.auxilary;
 import resources.utility.Arguments;
 import resources.utility.Response;
 import resources.task.Route;
-import server.commands.auxilary.Command;
 
 import java.util.Comparator;
 import java.util.Stack;
+
+import static resources.utility.Status.OK;
 
 /**
  * Sorts the collection.
@@ -32,6 +33,6 @@ public class SortingCommand implements Command {
     public Response execute(Arguments args) {
         Comparator<Route> routeComparator = Comparator.comparing(Route::getId);
         stack.sort(routeComparator);
-        return new Response();
+        return new Response(OK, "");
     }
 }

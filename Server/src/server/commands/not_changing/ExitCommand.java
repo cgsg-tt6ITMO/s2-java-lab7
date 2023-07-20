@@ -8,6 +8,8 @@ import resources.utility.Response;
 import server.commands.auxilary.AbstractCommand;
 import server.commands.auxilary.Command;
 
+import static resources.utility.Status.EXIT;
+
 /**
  * Handle 'exit' command.
  */
@@ -25,6 +27,6 @@ public class ExitCommand extends AbstractCommand implements Command {
      */
     @Override
     public Response execute(Arguments args) {
-        return new Response("EXIT...\n");
+        return new Response(EXIT, "EXIT...\n");
     }
 }

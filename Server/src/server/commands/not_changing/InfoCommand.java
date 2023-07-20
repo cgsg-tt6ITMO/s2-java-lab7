@@ -10,6 +10,8 @@ import server.commands.auxilary.Command;
 
 import java.time.ZonedDateTime;
 
+import static resources.utility.Status.OK;
+
 /**
  * Handle 'info' method.
  */
@@ -36,7 +38,7 @@ public class InfoCommand extends AbstractCommand implements Command {
      */
     @Override
     public Response execute(Arguments args) {
-        return new Response(("COLLECTION INFO:\n"
+        return new Response(OK, ("COLLECTION INFO:\n"
                 + "creation time: " + date.getHour() + ":" + (date.getMinute() > 9 ? date.getMinute() : "0" + date.getMinute())
                 + "\ntype of storage: " + type
                 + "\nnumber of elements: " + size + "\n\n"));

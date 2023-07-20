@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Stack;
 
+import static resources.utility.Status.*;
+
 /**
  * Handle 'clear' method.
  */
@@ -40,30 +42,31 @@ public class ClearCommand extends AbstractCommand implements Command {
         try {
             String user = args.getAuthor();
             Statement statement1 = conn.createStatement();
-            boolean doExist = statement1.execute("SELECT id FROM s368924_LabaN7 WHERE author = '" + user + "'");
-            ResultSet rs = statement1.getResultSet();
-            if (doExist) {
+            statement1.execute("SELECT COUNT(id) FROM s368924_LabaN7 WHERE author = '" + user + "'");
+            ResultSet rs1 = statement1.getResultSet();
+
+            if (rs1.next() && rs1.getLong(1) != 0) {
                 Statement statement2 = conn.createStatement();
-                statement2.execute("DELETE FROM s368924_LabaN7 WHERE author = '" + user + "'");
-                while (rs.next()) {
+                statement2.execute("SELECT id FROM s368924_LabaN7 WHERE author = '" + user + "'");
+                ResultSet rs2 = statement2.getResultSet();
+                Statement statement3 = conn.createStatement();
+                statement3.execute("DELETE FROM s368924_LabaN7 WHERE author = '" + user + "'");
+                while (rs2.next()) {
                     stack.removeIf(el -> {
                         try {
-                            return el.getId().equals(rs.getLong(1));
+                            return el.getId().equals(rs2.getLong(1));
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
                     });
                 }
-                return new Response("CLEAR:\nAll your routes were deleted.\n\n");
+                return new Response(SUCCESS, "CLEAR:\nAll your routes were deleted.\n\n");
             }
-            return new Response("CLEAR:\nYou didn't add any routes yet.\n\n");
+            return new Response(OK, "CLEAR:\nYou haven't added any routes yet.\n\n");
         } catch (SQLException e) {
-            e.printStackTrace();
+            return new Response(ERROR, "clear: sql problem");
         } catch (RuntimeException e) {
-            System.err.println("clear: lambda problem");
-            e.printStackTrace();
+            return new Response(ERROR, "clear: lambda problem");
         }
-        return new Response("ERROR");
-
     }
 }

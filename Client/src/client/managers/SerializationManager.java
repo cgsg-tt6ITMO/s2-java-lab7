@@ -11,6 +11,8 @@ import resources.utility.Response;
 
 import java.io.IOException;
 
+import static resources.utility.Status.ERROR;
+
 /**
  * Makes strings out of objects in order to send data through Streams of bytes.
  */
@@ -51,7 +53,7 @@ public class SerializationManager {
         try {
             return mapper.readValue(json, Response.class);
         } catch (Exception ex) {
-            return new Response("Error while response deserialization");
+            return new Response(ERROR, "Error while response deserialization");
         }
     }
 }

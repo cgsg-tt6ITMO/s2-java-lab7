@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Function;
 
+import static resources.utility.Status.*;
+
 /**
  * This class handles the commands that the client inputs in loop.
  */
@@ -31,7 +33,7 @@ public class Client {
         String answ = new String(arr).trim();
         Response response = SerializationManager.readResp(answ);
         System.out.println(response.getMessage());
-        if (response.getMessage().equals("EXIT...\n")) {
+        if (response.getStatus() == EXIT) {
             throw new ConnectException("exit");
         }
         return response;
@@ -62,9 +64,9 @@ public class Client {
         } catch (NoSuchCommandException e) {
             System.err.println(e.getMessage() + " (try again)");
         } catch (SocketException e) {
-            return new Response("Server fall...");
+            return new Response(ERROR, "Server fall...");
         }
-        return new Response("Error...");
+        return new Response(ERROR, "Error...");
     }
 
     /**
@@ -90,7 +92,7 @@ public class Client {
                 Request logOrReg = AskInputManager.loginOrRegister(sc);
                 Response response = oneCommand(logOrReg, sock);
                 if (logOrReg.getCommandName().equals("login")) {
-                    if (response.getMessage().equals("Login success!")) {
+                    if (response.getStatus() == SUCCESS) {
                         isLogin = true;
                         author = logOrReg.getArgs().getAuthor();
                     }

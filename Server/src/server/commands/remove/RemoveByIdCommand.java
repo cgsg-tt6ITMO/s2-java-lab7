@@ -16,6 +16,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Stack;
 
+import static resources.utility.Status.*;
+
 /**
  * Handle 'remove_by_id' method.
  */
@@ -46,12 +48,12 @@ public class RemoveByIdCommand extends AbstractCommand implements Command {
             if (rs.next() && rs.getLong(1) != 0) {
                 statement.execute("DELETE FROM s368924_LabaN7 WHERE id = " + id + "AND author = '" + args.getAuthor() + "'");
                 stack.removeIf(el -> el.getId().equals(id));
-                return new Response("REMOVE BY ID:\nAn element with id = " + id + " was successfully removed.\n\n");
+                return new Response(SUCCESS, "REMOVE BY ID:\nAn element with id = " + id + " was successfully removed.\n\n");
             }
-            return new Response("REMOVE BY ID:\nAn element with this id doesn't exists or you don't have rights to remove it.\n\n");
+            return new Response(OK, "REMOVE BY ID:\nAn element with this id doesn't exists or you don't have rights to remove it.\n\n");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Response("ERROR");
+        return new Response(ERROR, "");
     }
 }

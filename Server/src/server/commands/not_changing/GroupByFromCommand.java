@@ -12,6 +12,8 @@ import server.commands.auxilary.Command;
 import java.util.HashMap;
 import java.util.Stack;
 
+import static resources.utility.Status.OK;
+
 /**
  * Handle 'group_counting_by_from' method.
  */
@@ -48,6 +50,6 @@ public class GroupByFromCommand extends AbstractCommand implements Command {
             sb.append("Location from: ").append(el).append("\nNumber of elements with this from: ")
                     .append(grouped.get(el)).append("\n");
         }
-        return new Response(new String(sb));
+        return new Response(OK, new String(sb));
     }
 }

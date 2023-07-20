@@ -18,6 +18,8 @@ import java.sql.Statement;
 import java.util.Stack;
 import java.util.function.Function;
 
+import static resources.utility.Status.*;
+
 /**
  * Handle 'add_if_max' method.
  */
@@ -70,13 +72,13 @@ public class AddIfMaxCommand extends AbstractCommand implements Command {
                 statement2.execute(sql);
 
                 stack.add(route);
-                return new Response("ADD IF MAX:\nNEW ELEMENT ADDED SUCCESSFULLY\n");
+                return new Response(SUCCESS, "ADD IF MAX:\nNEW ELEMENT ADDED SUCCESSFULLY\n");
             }
-            return new Response("ADD IF MAX:\nThe element is not max, so it was not added.\n");
+            return new Response(OK, "ADD IF MAX:\nThe element is not max, so it was not added.\n");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Response("ERROR\n");
+        return new Response(ERROR, "");
     }
 }

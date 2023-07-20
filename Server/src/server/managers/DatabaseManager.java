@@ -24,6 +24,7 @@ public class DatabaseManager {
     public Connection start() {
         log = Logger.getLogger(DatabaseManager.class.getName());
         connection = connect();
+        createUserTable();
         createCollectionTable();
         return connection;
     }
@@ -50,6 +51,19 @@ public class DatabaseManager {
             System.exit(-1);
         }
         return conn;
+    }
+
+    private void createUserTable() {
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS s368924_LabaN7_users(" +
+                    "author VARCHAR(45) UNIQUE NOT NULL," +
+                    "password VARCHAR(45) NOT NULL" +
+                    ");");
+            log.info("Table 's368924_LabaN7_users' now exits");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void createCollectionTable() {

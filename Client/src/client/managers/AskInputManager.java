@@ -8,6 +8,7 @@ import resources.exceptions.ValidateException;
 import resources.task.Coordinates;
 import resources.task.Location;
 import resources.task.Route;
+import resources.utility.MD2Hashing;
 import resources.utility.Request;
 
 import java.util.InputMismatchException;
@@ -49,7 +50,7 @@ public class AskInputManager {
             author = sc.nextLine();
             System.out.println("Password:");
             password = sc.nextLine();
-            return new Request(command, password, author);
+            return new Request(command, MD2Hashing.encryptPassword(password), author);
         } catch (ValidateException ve) {
             return loginOrRegister(sc);
         }
@@ -63,7 +64,6 @@ public class AskInputManager {
         System.out.println("Input route data");
         try {
             return new Route()
-                    // неважно, какой id, потому что база сама генерит
                     .setName(inpString("Name", v.stringValidator()))
                     .setCoordinates(inpCoordinates("Coordinates (Double X, Float Y)"))
                     .setFrom(inpLocation("Location from (Float X, Float Y, Long Z, String name)"))

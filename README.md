@@ -1,6 +1,10 @@
 # JAVA, 2nd semester, Laba № 7
 Started 14.05.2023
 
+Finished 21.07.2023
+
+It took me 38 hours.
+
 ## HOW IT WORKS
 
 <details><summary>Run this programme:</summary>
